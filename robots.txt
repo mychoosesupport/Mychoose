@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mychoose.online/sitemap.xml
