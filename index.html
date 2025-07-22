@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Convert multiple images to a single PDF file instantly. Free, fast and secure tool." />
+  <meta name="keywords" content="image to pdf, convert jpg to pdf, png to pdf, online converter, free pdf tool" />
+  <meta name="author" content="mychoose.online" />
+  <meta name="robots" content="index, follow">
+  <title>Image to PDF Converter - mychoose.online</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      background: #6200ee;
+      color: #fff;
+      width: 100%;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .container {
+      padding: 2rem;
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+    .upload-box {
+      border: 2px dashed #999;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .upload-box.dragover {
+      background: #e0e0ff;
+      border-color: #6200ee;
+    }
+    .preview {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .img-thumb {
+      position: relative;
+    }
+    .img-thumb img {
+      height: 100px;
+      border-radius: 4px;
+    }
+    .img-thumb button {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .btn {
+      padding: 0.6rem 1.5rem;
+      background: #6200ee;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn.secondary {
+      background: #999;
+    }
+    footer {
+      margin-top: auto;
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>🖼️ Image to PDF Converter</header>
+  <div class="container">
+    <div class="upload-box" id="drop-area">
+      <p>Drag & drop images here, or click to upload</p>
+      <input type="file" id="fileElem" accept="image/*" multiple style="display:none;">
+    </div>
+    <div class="preview" id="preview"></div>
+    <div class="controls">
+      <button class="btn" id="convertBtn">Convert to PDF</button>
+      <button class="btn secondary" id="resetBtn">Reset</button>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 <a href="https://mychoose.online" style="color:#fff;text-decoration:underline;">mychoose.online</a> | All rights reserved.
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const dropArea = document.getElementById("drop-area");
+    const fileElem = document.getElementById("fileElem");
+    const preview = document.getElementById("preview");
+    const convertBtn = document.getElementById("convertBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    let images = [];
+
+    dropArea.addEventListener("click", () => fileElem.click());
+    dropArea.addEventListener("dragover", e => {
+      e.preventDefault();
+      dropArea.classList.add("dragover");
+    });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("dragover"));
+    dropArea.addEventListener("drop", e => {
+      e.preventDefault();
+      dropArea.classList.remove("dragover");
+      handleFiles(e.dataTransfer.files);
+    });
+    fileElem.addEventListener("change", () => handleFiles(fileElem.files));
+
+    function handleFiles(files) {
+      [...files].forEach(file => {
+        if (!file.type.startsWith("image/")) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+          images.push(e.target.result);
+          updatePreview();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function updatePreview() {
+      preview.innerHTML = "";
+      images.forEach((src, index) => {
+        const div = document.createElement("div");
+        div.className = "img-thumb";
+        div.innerHTML = `<img src="${src}" /><button onclick="removeImage(${index})">&times;</button>`;
+        preview.appendChild(div);
+      });
+    }
+
+    window.removeImage = function(index) {
+      images.splice(index, 1);
+      updatePreview();
+    };
+
+    convertBtn.addEventListener("click", async () => {
+      if (images.length === 0) return alert("Please upload at least one image.");
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      for (let i = 0; i < images.length; i++) {
+        const img = new Image();
+        img.src = images[i];
+        await new Promise(r => img.onload = r);
+        const width = pdf.internal.pageSize.getWidth();
+        const height = (img.height / img.width) * width;
+        if (i > 0) pdf.addPage();
+        pdf.addImage(images[i], 'JPEG', 0, 0, width, height);
+      }
+      pdf.save("images.pdf");
+    });
+
+    resetBtn.addEventListener("click", () => {
+      images = [];
+      updatePreview();
+    });
+  </script>
+</body>
+</html>
