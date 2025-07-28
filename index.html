@@ -1,19 +1,19 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Convert images to PDF easily. Drag & drop, compress, rotate, crop, and download a professional PDF instantly.">
   <title>Image to PDF Converter | MyChoose</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       background-color: #f4f4f4;
       color: #333;
-      transition: background 0.3s;
+      transition: background 0.3s, color 0.3s;
     }
-    .dark-mode {
+    body.dark-mode {
       background-color: #121212;
       color: #eee;
     }
@@ -35,24 +35,79 @@
       cursor: pointer;
       background: white;
       margin-bottom: 20px;
+      transition: background 0.3s;
+      user-select: none;
+    }
+    .upload-box.dragover {
+      background: #e0f7ff;
     }
     .image-preview {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
+      margin-bottom: 15px;
     }
     .image-container {
       position: relative;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 5px;
+      background: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      user-select: none;
+      width: 110px;
     }
     .image-container img {
-      max-width: 100px;
-      height: auto;
+      max-width: 100%; 
+      max-height: 100px;
+      display: block;
+      margin: 0 auto 5px;
+      transition: transform 0.3s;
     }
     .btn {
       margin: 5px;
       padding: 10px 20px;
       cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    .btn:hover:not(:disabled) {
+      background-color: #0056b3;
+    }
+    .btn:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+    .small-btn {
+      padding: 5px 8px;
+      font-size: 0.9rem;
+      margin: 0 2px;
+    }
+    .progress-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 10px auto;
+      display: none;
+    }
+    progress {
+      width: 100%;
+      height: 20px;
+      border-radius: 10px;
+      appearance: none;
+    }
+    progress::-webkit-progress-bar {
+      background-color: #eee;
+      border-radius: 10px;
+    }
+    progress::-webkit-progress-value {
+      background-color: #007BFF;
+      border-radius: 10px;
+      transition: width 0.3s;
     }
     footer {
       text-align: center;
@@ -67,89 +122,302 @@
     <h1>🖼️ Image to PDF Converter</h1>
   </header>
   <div class="container">
-    <div class="upload-box" id="drop-area">
+    <div class="upload-box" id="drop-area" tabindex="0" aria-label="Drag and drop images here or click to upload files">
       <p>📂 Drag & drop images here, or click to upload</p>
-      <input type="file" id="fileElem" multiple accept="image/*" style="display:none">
-    </div><div class="image-preview" id="preview"></div>
+      <input type="file" id="fileElem" multiple accept="image/*" style="display:none" />
+    </div>
+    <div class="image-preview" id="preview"></div>
 
-<div>
-  <button class="btn" onclick="rotateAll('left')">⤺ Rotate Left</button>
-  <button class="btn" onclick="rotateAll('right')">⤻ Rotate Right</button>
-  <button class="btn" onclick="compressImages()">📉 Compress Images</button>
-  <button class="btn" onclick="generatePDF()">📄 Convert to PDF</button>
-  <button class="btn" onclick="resetAll()">🔄 Reset</button>
-  <button class="btn" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
-</div>
+    <div>
+      <button class="btn" id="compressBtn" onclick="compressImages()" disabled>📉 Compress Images</button>
+      <button class="btn" id="generateBtn" onclick="generatePDF()" disabled>📄 Convert to PDF</button>
+      <button class="btn" id="resetBtn" onclick="resetAll()" disabled>🔄 Reset</button>
+      <button class="btn" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
+    </div>
+    <div class="progress-container" id="progressContainer">
+      <progress id="progressBar" value="0" max="100" aria-label="PDF generation progress"></progress>
+    </div>
+  </div>
+  <footer>
+    © 2025 <a href="https://mychoose.online" style="color: inherit;">mychoose.online</a> | All rights reserved.
+  </footer>
 
-  </div>  <footer>
-    © 2025 <a href="https://mychoose.online">mychoose.online</a> | All rights reserved.
-  </footer>  <script>
-    const dropArea = document.getElementById('drop-area');
-    const fileElem = document.getElementById('fileElem');
-    const preview = document.getElementById('preview');
-    let images = [];
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  const { jsPDF } = window.jspdf;
 
-    dropArea.addEventListener('click', () => fileElem.click());
-    fileElem.addEventListener('change', handleFiles);
-    dropArea.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropArea.style.background = '#e0f7ff';
+  const dropArea = document.getElementById('drop-area');
+  const fileElem = document.getElementById('fileElem');
+  const preview = document.getElementById('preview');
+  const compressBtn = document.getElementById('compressBtn');
+  const generateBtn = document.getElementById('generateBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const progressBar = document.getElementById('progressBar');
+  const progressContainer = document.getElementById('progressContainer');
+
+  let images = []; // Array of objects: {file:File, imgElem:HTMLImageElement, rotation:degrees, compressedDataURL:string|null}
+
+  // Helper: clear all UI and state
+  function resetAll() {
+    images = [];
+    preview.innerHTML = '';
+    progressBar.value = 0;
+    progressContainer.style.display = 'none';
+    compressBtn.disabled = true;
+    generateBtn.disabled = true;
+    resetBtn.disabled = true;
+  }
+
+  // Show preview thumbnails with rotate left/right and remove buttons
+  function addImageToPreview(file, dataURL) {
+    const div = document.createElement('div');
+    div.className = 'image-container';
+
+    const img = document.createElement('img');
+    img.src = dataURL;
+    img.alt = file.name;
+    img.style.transform = 'rotate(0deg)';
+    img.title = file.name;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = '❌';
+    removeBtn.className = 'small-btn';
+    removeBtn.title = 'Remove Image';
+    removeBtn.onclick = () => {
+      preview.removeChild(div);
+      images = images.filter(i => i.imgElem !== img);
+      updateButtons();
+    };
+
+    const rotateLeftBtn = document.createElement('button');
+    rotateLeftBtn.textContent = '⤺';
+    rotateLeftBtn.className = 'small-btn';
+    rotateLeftBtn.title = 'Rotate Left';
+    rotateLeftBtn.onclick = () => {
+      rotateImage(img, -90);
+    };
+
+    const rotateRightBtn = document.createElement('button');
+    rotateRightBtn.textContent = '⤻';
+    rotateRightBtn.className = 'small-btn';
+    rotateRightBtn.title = 'Rotate Right';
+    rotateRightBtn.onclick = () => {
+      rotateImage(img, 90);
+    };
+
+    div.appendChild(img);
+    div.appendChild(document.createElement('br'));
+    div.appendChild(rotateLeftBtn);
+    div.appendChild(rotateRightBtn);
+    div.appendChild(removeBtn);
+    preview.appendChild(div);
+
+    return img;
+  }
+
+  // Rotate an image element by angle degrees relative (angle can be positive or negative)
+  function rotateImage(imgElem, angle) {
+    // Find current rotation angle
+    const style = imgElem.style.transform;
+    const regex = /rotate\((-?\d+)deg\)/;
+    let current = 0;
+    if (style && regex.test(style)) {
+      current = parseInt(style.match(regex)[1]);
+    }
+    let newAngle = (current + angle) % 360;
+    imgElem.style.transform = `rotate(${newAngle}deg)`;
+
+    // Store rotation in images array entry
+    const imgObj = images.find(i => i.imgElem === imgElem);
+    if (imgObj) imgObj.rotation = newAngle;
+  }
+
+  // Handle files selected or dropped
+  function handleFiles(e) {
+    const files = e.target.files || e.dataTransfer.files;
+    if (!files.length) return;
+
+    let newAdded = false;
+
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) continue;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        const dataURL = evt.target.result;
+        const imgElem = addImageToPreview(file, dataURL);
+        images.push({file, imgElem, rotation: 0, compressedDataURL: null});
+        updateButtons();
+      };
+      reader.readAsDataURL(file);
+      newAdded = true;
+    }
+  }
+
+  // Update state of buttons enabled/disabled
+  function updateButtons() {
+    const hasImages = images.length > 0;
+    compressBtn.disabled = !hasImages;
+    generateBtn.disabled = !hasImages;
+    resetBtn.disabled = !hasImages;
+  }
+
+  // Compress images by drawing them on canvas at reduced quality
+  async function compressImages() {
+    compressBtn.disabled = true;
+    generateBtn.disabled = true;
+    progressContainer.style.display = 'block';
+    progressBar.value = 0;
+
+    for (let i = 0; i < images.length; i++) {
+      const imgObj = images[i];
+      const compressedDataURL = await compressImage(imgObj.imgElem, imgObj.rotation, 0.7); // 70% quality
+      imgObj.compressedDataURL = compressedDataURL;
+      // Update preview image src to compressed version
+      imgObj.imgElem.src = compressedDataURL;
+      progressBar.value = ((i+1) / images.length) * 100;
+    }
+
+    progressContainer.style.display = 'none';
+    compressBtn.disabled = false;
+    generateBtn.disabled = false;
+    alert('이미지 압축 완료되었습니다 (Images compressed).');
+  }
+
+  // Compress one image element with rotation by drawing on canvas, return base64 jpeg data URL
+  function compressImage(imgElem, rotationDeg, quality) {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      let width = imgElem.naturalWidth;
+      let height = imgElem.naturalHeight;
+
+      if (rotationDeg % 180 !== 0) {
+        canvas.width = height;
+        canvas.height = width;
+      } else {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      // translate & rotate canvas context for rotation
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      switch(rotationDeg) {
+        case 90:
+          ctx.translate(canvas.width, 0);
+          ctx.rotate((90 * Math.PI) / 180);
+          break;
+        case 180:
+        case -180:
+          ctx.translate(canvas.width, canvas.height);
+          ctx.rotate((180 * Math.PI) / 180);
+          break;
+        case -90:
+          ctx.translate(0, canvas.height);
+          ctx.rotate((-90 * Math.PI) / 180);
+          break;
+        default:
+          break;
+      }
+      ctx.drawImage(imgElem, 0, 0, width, height);
+      ctx.restore();
+
+      // get compressed jpeg data URL
+      const compressed = canvas.toDataURL('image/jpeg', quality || 0.7);
+      resolve(compressed);
     });
-    dropArea.addEventListener('dragleave', () => dropArea.style.background = 'white');
-    dropArea.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropArea.style.background = 'white';
-      handleFiles({ target: { files: e.dataTransfer.files } });
-    });
+  }
 
-    function handleFiles(e) {
-      [...e.target.files].forEach(file => {
-        if (!file.type.startsWith('image/')) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          const img = new Image();
-          img.src = reader.result;
-          const div = document.createElement('div');
-          div.className = 'image-container';
-          div.innerHTML = `<img src="${img.src}" /><br><button onclick="removeImage(this)">❌</button>`;
-          preview.appendChild(div);
-          images.push(img);
+  // Generate PDF from images (compressed if compression done, rotated correctly)
+  async function generatePDF() {
+    if (images.length === 0) {
+      alert('Please add images first.');
+      return;
+    }
+    generateBtn.disabled = true;
+    compressBtn.disabled = true;
+    resetBtn.disabled = true;
+    progressContainer.style.display = 'block';
+    progressBar.value = 0;
+
+    const pdf = new jsPDF();
+
+    for (let i = 0; i < images.length; i++) {
+      const imgObj = images[i];
+
+      // Use compressed dataURL if available; else original image src
+      const imgSrc = imgObj.compressedDataURL || imgObj.imgElem.src;
+
+      // We create an Image object to get natural size info
+      const img = new Image();
+      img.src = imgSrc;
+      await new Promise((resolve) => {
+        img.onload = () => {
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+
+          // Calculate scale to fit image inside page (with margin)
+          let imgWidth = img.width;
+          let imgHeight = img.height;
+
+          const ratio = imgWidth / imgHeight;
+          let drawWidth = pageWidth * 0.95;
+          let drawHeight = drawWidth / ratio;
+
+          if (drawHeight > pageHeight * 0.95) {
+            drawHeight = pageHeight * 0.95;
+            drawWidth = drawHeight * ratio;
+          }
+
+          if (i > 0) pdf.addPage();
+          // Add image centered
+          pdf.addImage(img, 'JPEG', (pageWidth - drawWidth) / 2, (pageHeight - drawHeight) / 2, drawWidth, drawHeight);
+
+          progressBar.value = ((i + 1) / images.length) * 100;
+          resolve();
         };
-        reader.readAsDataURL(file);
+        img.onerror = () => {
+          alert('Error loading an image for PDF generation.');
+          resolve();
+        };
       });
     }
 
-    function removeImage(btn) {
-      const div = btn.parentElement;
-      const imgSrc = div.querySelector('img').src;
-      images = images.filter(img => img.src !== imgSrc);
-      div.remove();
-    }
+    pdf.save('converted.pdf');
 
-    function rotateAll(direction) {
-      preview.querySelectorAll('img').forEach(img => {
-        const current = img.style.transform.match(/rotate(\d+)deg/);
-        let angle = current ? parseInt(current[1]) : 0;
-        angle += direction === 'left' ? -90 : 90;
-        img.style.transform = `rotate(${angle}deg)`;
-      });
-    }
+    progressContainer.style.display = 'none';
+    generateBtn.disabled = false;
+    compressBtn.disabled = false;
+    resetBtn.disabled = false;
+  }
 
-    function compressImages() {
-      alert("Image compression will be added soon in full processing.");
-    }
+  // Dark mode toggle
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+  }
 
-    function generatePDF() {
-      alert("PDF generation is not yet implemented in this preview.");
+  // Initialize drag and drop & file input listeners
+  dropArea.addEventListener('click', () => fileElem.click());
+  dropArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropArea.classList.add('dragover');
+  });
+  dropArea.addEventListener('dragleave', (e) => {
+    dropArea.classList.remove('dragover');
+  });
+  dropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropArea.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      handleFiles(e);
     }
+  });
+  fileElem.addEventListener('change', handleFiles);
 
-    function resetAll() {
-      preview.innerHTML = '';
-      images = [];
-    }
+  // On page load reset all
+  resetAll();
 
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-    }
-  </script></body>
+</script>
+</body>
 </html>
