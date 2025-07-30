@@ -1,141 +1,93 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyChoose Tools</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyChoose - Free Online Tools</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
   <style>
-    * {
+    body {
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    body {
-      background-color: #f9f9f9;
-      color: #333;
       transition: background-color 0.3s, color 0.3s;
     }
     .dark-mode {
       background-color: #121212;
-      color: #f0f0f0;
-    }
-    header {
-      background-color: #0070f3;
       color: white;
+    }
+    .header {
       padding: 1rem;
       text-align: center;
-      font-size: 1.8rem;
-      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
     }
-    .toggle-container {
+    .tools-container {
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tool-card {
+      background: #f2f2f2;
+      border-radius: 10px;
+      padding: 1rem 2rem;
+      margin: 1rem 0;
+      width: 100%;
+      max-width: 600px;
       text-align: center;
-      margin: 1rem;
+      transition: background 0.3s;
     }
-    .tools-section {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-      border-left: 5px solid #ccc;
-      position: relative;
+    .dark-mode .tool-card {
+      background: #1f1f1f;
     }
-    .tools-section::before {
-      content: '⋮';
-      position: absolute;
-      left: -15px;
-      top: 10px;
-      font-size: 1.5rem;
-      color: #aaa;
-    }
-    h2 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-    }
-    ul {
-      list-style: none;
-      padding-left: 1rem;
-    }
-    ul li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    ul li a {
-      text-decoration: none;
-      color: #0070f3;
-      transition: color 0.2s;
-    }
-    ul li a:hover {
-      text-decoration: underline;
-    }
-    footer {
-      background-color: #f1f1f1;
-      padding: 1rem;
+    .footer {
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 2rem 1rem;
       text-align: center;
       font-size: 0.9rem;
-      margin-top: 2rem;
     }
-    .dark-mode footer {
-      background-color: #1e1e1e;
+    .dark-mode .footer {
+      background-color: #1a1a1a;
       color: #ccc;
     }
-    .dark-toggle-btn {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 5px;
+    .dark-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
       cursor: pointer;
-      background: #333;
-      color: #fff;
     }
   </style>
 </head>
-<body>  <header>MyChoose Tools</header>  <div class="toggle-container">
-    <button class="dark-toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-  </div>  <div class="tools-section">
-    <h2>🔴 Image Tools</h2>
-    <ul>
-      <li><a href="/image-to-pdf">1. Image to PDF Converter ✅</a></li>
-      <li><a href="/png-to-jpg">2. PNG to JPG Converter ✅</a></li>
-      <li>3. JPG to PNG Converter</li>
-      <li>4. Image Resizer</li>
-      <li>5. Image Compressor</li>
-      <li>6. Image Cropper</li>
-      <li>7. Image Rotator</li>
-      <li>8. Image to Text (OCR)</li>
-    </ul>
-  </div>  <div class="tools-section">
-    <h2>🔵 PDF Tools</h2>
-    <ul>
-      <li>9. Merge PDF</li>
-      <li>10. Split PDF</li>
-      <li>11. Compress PDF</li>
-      <li>12. PDF to Word</li>
-      <li>13. Word to PDF</li>
-      <li>14. PDF to JPG</li>
-      <li>15. JPG to PDF ✅</li>
-    </ul>
-  </div>  <div class="tools-section">
-    <h2>🟡 Text Tools</h2>
-    <ul>
-      <li>16. Text to PDF</li>
-      <li>17. Word Counter</li>
-      <li>18. Remove Duplicate Lines</li>
-      <li>19. Case Converter (Uppercase / Lowercase / Sentence Case)</li>
-    </ul>
-  </div>  <div class="tools-section">
-    <h2>🟢 Utility Tools</h2>
-    <ul>
-      <li>20. QR Code Generator</li>
-      <li>21. QR Code Scanner</li>
-      <li>22. Password Generator</li>
-      <li>23. Color Picker</li>
-      <li>24. Notepad (Online Notes Save Tool)</li>
-    </ul>
-  </div>  <footer>
-    <p><strong>About:</strong> MyChoose offers free and fast tools to convert, compress, edit and manage your files online. Built for simplicity and speed.</p>
+<body>
+  <div class="dark-toggle">
+    <button onclick="toggleDarkMode()" class="btn btn-outline-secondary btn-sm">🌓 Toggle Dark Mode</button>
+  </div>
+
+  <div class="header">
+    <h1>MyChoose Tools</h1>
+    <p>Fast, Simple, and Free Online Tool</p>
+  </div>
+
+  <div class="tools-container">
+    <div class="tool-card">
+      <h3>📄 Image to PDF Converter</h3>
+      <p>Convert your images into PDF files easily and quickly.</p>
+      <a href="/image-to-pdf" class="btn btn-success">Open Tool</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><strong>About:</strong> MyChoose is a collection of free online tools built for everyone to simplify daily tasks.</p>
     <p><strong>Contact:</strong> <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
-    <p>© 2025 MyChoose. All rights reserved.</p>
-  </footer>  <script>
+    <p>&copy; 2025 MyChoose. All rights reserved.</p>
+  </div>
+
+  <script>
     function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle("dark-mode");
     }
-  </script></body>
+  </script>
+</body>
 </html>
