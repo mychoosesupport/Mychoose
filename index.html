@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MyChoose Tools - Free Online PDF & Image Tools</title>
+  <title>MyChoose Tools - Free PDF & Image Tools</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -13,9 +13,13 @@
       --card-light: #ffffff;
 
       --primary-dark: #0d1e3f;
-      --background-dark: #111827;
+      --background-dark: #0b1120;
       --text-dark: #f3f4f6;
       --card-dark: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
@@ -34,7 +38,7 @@
     header {
       background-color: var(--primary-light);
       color: white;
-      padding: 20px;
+      padding: 30px 20px;
       text-align: center;
     }
 
@@ -43,22 +47,23 @@
     }
 
     header h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
+      margin: 0;
     }
 
     header p {
       font-size: 1rem;
-      margin-top: 6px;
+      margin: 8px 0 0;
     }
 
     .toggle-container {
       text-align: right;
       padding: 10px 20px;
+      font-size: 0.95rem;
     }
 
     .toggle-container label {
       cursor: pointer;
-      font-size: 0.95rem;
     }
 
     main {
@@ -69,7 +74,7 @@
 
     .tool-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
       margin-top: 30px;
     }
@@ -79,17 +84,22 @@
       padding: 20px;
       border-radius: 16px;
       text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
     }
 
     body.dark .tool-card {
       background-color: var(--card-dark);
-      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+      box-shadow: 0 2px 12px rgba(255,255,255,0.05);
     }
 
     .tool-card h3 {
       margin-bottom: 10px;
+      font-size: 1.2rem;
     }
 
     .tool-card p {
@@ -103,14 +113,14 @@
 
     .tool-card a {
       display: inline-block;
-      margin-top: 10px;
+      margin-top: 12px;
       text-decoration: none;
       color: white;
       background: #1e90ff;
-      padding: 8px 14px;
+      padding: 8px 16px;
       border-radius: 8px;
       font-size: 0.9rem;
-      transition: 0.2s;
+      transition: background 0.2s;
     }
 
     .tool-card a:hover {
@@ -145,7 +155,11 @@
 
     @media (min-width: 768px) {
       header h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+      }
+
+      header p {
+        font-size: 1.1rem;
       }
     }
   </style>
@@ -174,18 +188,19 @@
         <p>Convert PNG images to JPG format in seconds.</p>
         <a href="png-to-jpg/index.html">Use Tool</a>
       </div>
+      <!-- Add more tool cards here -->
     </section>
-
-    <footer>
-      <h4>About MyChoose</h4>
-      <p>MyChoose is your free online platform for image and document tools. We make file conversion simple, fast, and secure for everyone.</p>
-
-      <h4>Support & Contact</h4>
-      <p class="contact">Need help? Contact us at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
-
-      <p>© 2025 MyChoose. All rights reserved.</p>
-    </footer>
   </main>
+
+  <footer>
+    <h4>About MyChoose</h4>
+    <p>MyChoose is your free online platform for image and document tools. We make file conversion simple, fast, and secure for everyone.</p>
+
+    <h4>Support & Contact</h4>
+    <p class="contact">Need help? Email us at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
+
+    <p>© 2025 MyChoose. All rights reserved.</p>
+  </footer>
 
   <script>
     function toggleDarkMode() {
