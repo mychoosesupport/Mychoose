@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PNG to JPG Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    input[type="file"] {
+      margin: 20px 0;
+    }
+    img {
+      max-width: 300px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>PNG to JPG Converter</h1>
+  <input type="file" id="upload" accept="image/png">
+  <br>
+  <img id="preview" src="#" alt="Preview" style="display:none;">
+  <br>
+  <button id="convertBtn" style="display:none;">Convert & Download JPG</button>
+
+  <script>
+    const upload = document.getElementById('upload');
+    const preview = document.getElementById('preview');
+    const convertBtn = document.getElementById('convertBtn');
+    let pngImage;
+
+    upload.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file && file.type === 'image/png') {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+          convertBtn.style.display = 'inline-block';
+          pngImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please upload a PNG file!");
+      }
+    });
+
+    convertBtn.addEventListener('click', function () {
+      const canvas = document.createElement('canvas');
+      const img = new Image();
+      img.src = pngImage;
+
+      img.onload = function () {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const jpgData = canvas.toDataURL('image/jpeg', 1.0);
+
+        const link = document.createElement('a');
+        link.href = jpgData;
+        link.download = 'converted.jpg';
+        link.click();
+      };
+    });
+  </script>
+
+</body>
+</html>
