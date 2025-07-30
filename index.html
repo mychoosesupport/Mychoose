@@ -1,242 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MyChoose Tools - Free Online PDF & Image Tools</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyChoose Tools</title>
   <style>
-    :root {
-      --primary-light: #0047ab;
-      --background-light: #f9f9f9;
-      --text-light: #1a1a1a;
-      --card-light: #ffffff;
-
-      --primary-dark: #0d1e3f;
-      --background-dark: #111827;
-      --text-dark: #f3f4f6;
-      --card-dark: #1f2937;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
     }
-
     body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: var(--background-light);
-      color: var(--text-light);
-      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
-
-    body.dark {
-      background-color: var(--background-dark);
-      color: var(--text-dark);
+    .dark-mode {
+      background-color: #121212;
+      color: #f0f0f0;
     }
-
     header {
-      background-color: var(--primary-light);
+      background-color: #0070f3;
       color: white;
-      padding: 25px 20px;
+      padding: 1rem;
       text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
     }
-
-    header h1 {
-      font-size: 2rem;
-      margin: 0;
-    }
-
-    header p {
-      font-size: 1rem;
-      margin-top: 6px;
-    }
-
     .toggle-container {
-      text-align: right;
-      padding: 10px 20px;
-    }
-
-    .toggle-container label {
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-
-    main {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    h2.category-title {
-      font-size: 1.4rem;
-      margin: 40px 0 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .tool-card {
-      background-color: var(--card-light);
-      padding: 20px;
-      border-radius: 14px;
       text-align: center;
-      box-shadow: 0 0 8px rgba(0,0,0,0.06);
-      transition: transform 0.3s ease;
+      margin: 1rem;
     }
-
-    .tool-card:hover {
-      transform: translateY(-3px);
+    .tools-section {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      border-left: 5px solid #ccc;
+      position: relative;
     }
-
-    body.dark .tool-card {
-      background-color: var(--card-dark);
-      box-shadow: 0 0 8px rgba(255,255,255,0.05);
+    .tools-section::before {
+      content: '⋮';
+      position: absolute;
+      left: -15px;
+      top: 10px;
+      font-size: 1.5rem;
+      color: #aaa;
     }
-
-    .tool-card h3 {
-      margin-bottom: 10px;
-      font-size: 1.1rem;
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
     }
-
-    .tool-card p {
-      font-size: 0.85rem;
-      color: #555;
+    ul {
+      list-style: none;
+      padding-left: 1rem;
     }
-
-    body.dark .tool-card p {
+    ul li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    ul li a {
+      text-decoration: none;
+      color: #0070f3;
+      transition: color 0.2s;
+    }
+    ul li a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background-color: #f1f1f1;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+    .dark-mode footer {
+      background-color: #1e1e1e;
       color: #ccc;
     }
-
-    .tool-card a {
-      display: inline-block;
-      margin-top: 10px;
-      text-decoration: none;
-      color: white;
-      background: #1e90ff;
-      padding: 7px 14px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      transition: 0.2s;
-    }
-
-    .tool-card a:hover {
-      background: #0b6ac9;
-    }
-
-    footer {
-      margin-top: 60px;
-      padding: 30px 20px;
-      text-align: center;
-      background-color: var(--primary-light);
-      color: white;
-    }
-
-    body.dark footer {
-      background-color: var(--primary-dark);
-    }
-
-    footer h4 {
-      margin-top: 20px;
-    }
-
-    footer p {
-      font-size: 0.9rem;
-      margin-top: 8px;
-    }
-
-    .contact a {
-      color: #aad3ff;
-      text-decoration: none;
-    }
-
-    @media (min-width: 768px) {
-      header h1 {
-        font-size: 2.5rem;
-      }
+    .dark-toggle-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #333;
+      color: #fff;
     }
   </style>
 </head>
-<body>
-  <header>
-    <h1>MyChoose Tools</h1>
-    <p>All-in-One Free PDF, Image & Utility Tools</p>
-  </header>
-
-  <div class="toggle-container">
-    <label>
-      🌙 <input type="checkbox" id="darkToggle" onchange="toggleDarkMode()"> Dark Mode
-    </label>
-  </div>
-
-  <main>
-    <!-- 🔴 Image Tools -->
-    <h2 class="category-title">🔴 Image Tools</h2>
-    <section class="tool-grid">
-      <div class="tool-card">
-        <h3>Image to PDF</h3>
-        <p>Convert JPG/PNG images into PDF files instantly.</p>
-        <a href="image-to-pdf/index.html">Use Tool</a>
-      </div>
-      <div class="tool-card">
-        <h3>PNG to JPG</h3>
-        <p>Convert PNG images to JPG format in seconds.</p>
-        <a href="png-to-jpg/index.html">Use Tool</a>
-      </div>
-    </section>
-
-    <!-- 🔵 PDF Tools -->
-    <h2 class="category-title">🔵 PDF Tools</h2>
-    <section class="tool-grid">
-      <div class="tool-card">
-        <h3>Merge PDF</h3>
-        <p>Combine multiple PDF files into one.</p>
-        <a href="#">Coming Soon</a>
-      </div>
-      <div class="tool-card">
-        <h3>Compress PDF</h3>
-        <p>Reduce file size of your PDF easily.</p>
-        <a href="#">Coming Soon</a>
-      </div>
-    </section>
-
-    <!-- 🟡 Text Tools -->
-    <h2 class="category-title">🟡 Text Tools</h2>
-    <section class="tool-grid">
-      <div class="tool-card">
-        <h3>Word Counter</h3>
-        <p>Count words and characters in your text.</p>
-        <a href="#">Coming Soon</a>
-      </div>
-    </section>
-
-    <!-- 🟢 Utility Tools -->
-    <h2 class="category-title">🟢 Utility Tools</h2>
-    <section class="tool-grid">
-      <div class="tool-card">
-        <h3>QR Code Generator</h3>
-        <p>Create QR codes for links, text, or contact info.</p>
-        <a href="#">Coming Soon</a>
-      </div>
-    </section>
-
-    <footer>
-      <h4>About MyChoose</h4>
-      <p>MyChoose is your free online platform for image and document tools. We make file conversion simple, fast, and secure for everyone.</p>
-
-      <h4>Support & Contact</h4>
-      <p class="contact">Need help? Contact us at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
-
-      <p>© 2025 MyChoose. All rights reserved.</p>
-    </footer>
-  </main>
-
-  <script>
+<body>  <header>MyChoose Tools</header>  <div class="toggle-container">
+    <button class="dark-toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  </div>  <div class="tools-section">
+    <h2>🔴 Image Tools</h2>
+    <ul>
+      <li><a href="/image-to-pdf">1. Image to PDF Converter ✅</a></li>
+      <li><a href="/png-to-jpg">2. PNG to JPG Converter ✅</a></li>
+      <li>3. JPG to PNG Converter</li>
+      <li>4. Image Resizer</li>
+      <li>5. Image Compressor</li>
+      <li>6. Image Cropper</li>
+      <li>7. Image Rotator</li>
+      <li>8. Image to Text (OCR)</li>
+    </ul>
+  </div>  <div class="tools-section">
+    <h2>🔵 PDF Tools</h2>
+    <ul>
+      <li>9. Merge PDF</li>
+      <li>10. Split PDF</li>
+      <li>11. Compress PDF</li>
+      <li>12. PDF to Word</li>
+      <li>13. Word to PDF</li>
+      <li>14. PDF to JPG</li>
+      <li>15. JPG to PDF ✅</li>
+    </ul>
+  </div>  <div class="tools-section">
+    <h2>🟡 Text Tools</h2>
+    <ul>
+      <li>16. Text to PDF</li>
+      <li>17. Word Counter</li>
+      <li>18. Remove Duplicate Lines</li>
+      <li>19. Case Converter (Uppercase / Lowercase / Sentence Case)</li>
+    </ul>
+  </div>  <div class="tools-section">
+    <h2>🟢 Utility Tools</h2>
+    <ul>
+      <li>20. QR Code Generator</li>
+      <li>21. QR Code Scanner</li>
+      <li>22. Password Generator</li>
+      <li>23. Color Picker</li>
+      <li>24. Notepad (Online Notes Save Tool)</li>
+    </ul>
+  </div>  <footer>
+    <p><strong>About:</strong> MyChoose offers free and fast tools to convert, compress, edit and manage your files online. Built for simplicity and speed.</p>
+    <p><strong>Contact:</strong> <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
+    <p>© 2025 MyChoose. All rights reserved.</p>
+  </footer>  <script>
     function toggleDarkMode() {
-      document.body.classList.toggle("dark");
+      document.body.classList.toggle('dark-mode');
     }
-  </script>
-</body>
+  </script></body>
 </html>
