@@ -3,152 +3,187 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>mychoose.online – Free Online Tools</title>
+  <title>myChoose – Free Online Tools</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
     body {
-      background: #f4f4f4;
-      color: #333;
-      transition: background 0.3s, color 0.3s;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f6fa;
     }
 
     header {
-      background: #d32f2f;
-      color: #fff;
+      background-color: #fff;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #e74c3c;
+    }
+
+    .tools-section {
+      max-width: 1100px;
+      margin: 40px auto;
       padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 30px 20px;
     }
 
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 20px;
     }
 
     .tool-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease;
+      background-color: #fff;
+      padding: 30px 20px;
       text-align: center;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      min-height: 200px;
     }
 
     .tool-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .tool-card i {
+      font-size: 30px;
+      color: #3498db;
+      margin-bottom: 15px;
     }
 
     .tool-card h3 {
+      font-size: 18px;
       margin-bottom: 10px;
-      color: #d32f2f;
-    }
-
-    .tool-card p {
-      font-size: 0.9rem;
-      margin-bottom: 10px;
+      color: #2c3e50;
     }
 
     .tool-card a {
-      text-decoration: none;
-      background: #d32f2f;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
       display: inline-block;
       margin-top: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #2980b9;
+    }
+
+    .coming-soon {
+      color: #aaa;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .about-section {
+      max-width: 900px;
+      margin: 60px auto 40px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .about-section h2 {
+      font-size: 22px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .about-section p {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.6;
     }
 
     footer {
       text-align: center;
       padding: 20px;
-      background: #222;
-      color: #ccc;
-      margin-top: 40px;
-      font-size: 0.9rem;
-    }
-
-    .toggle-dark {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #222;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    body.dark {
-      background: #121212;
-      color: #ddd;
-    }
-
-    body.dark .tool-card {
-      background: #1e1e1e;
-      color: #eee;
-    }
-
-    body.dark header {
-      background: #b71c1c;
-    }
-
-    body.dark .tool-card a {
-      background: #ff7043;
+      font-size: 14px;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
-  <button class="toggle-dark" onclick="toggleDarkMode()">🌙</button>
-
   <header>
-    <h1>mychoose.online</h1>
-    <p>Free Simple Tools for Everyone</p>
+    <h1>myChoose Tools</h1>
   </header>
 
-  <div class="container">
+  <section class="tools-section">
     <div class="tools-grid">
+      <!-- Live Tools -->
       <div class="tool-card">
+        <i class="fas fa-file-pdf"></i>
         <h3>Image to PDF</h3>
-        <p>Convert JPG/PNG images into a single PDF file.</p>
-        <a href="image-to-pdf.html">Open Tool</a>
+        <a href="image-to-pdf.html">Try Now →</a>
       </div>
 
       <div class="tool-card">
+        <i class="fas fa-image"></i>
         <h3>PNG to JPG</h3>
-        <p>Convert your PNG images into JPG format easily.</p>
-        <a href="png-to-jpg.html">Open Tool</a>
+        <a href="png-to-jpg.html">Try Now →</a>
       </div>
 
-      <!-- Add more tools here -->
+      <!-- Coming Soon Tools -->
+      <div class="tool-card">
+        <i class="fas fa-compress"></i>
+        <h3>Compress Image</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
+
+      <div class="tool-card">
+        <i class="fas fa-crop-alt"></i>
+        <h3>Crop Image</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
+
+      <div class="tool-card">
+        <i class="fas fa-sync-alt"></i>
+        <h3>Rotate Image</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
+
+      <div class="tool-card">
+        <i class="fas fa-file-archive"></i>
+        <h3>ZIP to PDF</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
+
+      <div class="tool-card">
+        <i class="fas fa-images"></i>
+        <h3>PDF to Images</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
+
+      <div class="tool-card">
+        <i class="fas fa-file-word"></i>
+        <h3>PDF to Word</h3>
+        <p class="coming-soon">Coming Soon</p>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="about-section">
+    <h2>About myChoose</h2>
+    <p>
+      myChoose.online offers free, easy-to-use online tools for everyday file tasks — all in one place! We are building a collection of simple, fast, and mobile-friendly tools that help students, creators, and professionals alike.
+    </p>
+    <p>
+      ❤️ Your support means everything. Share our tools with friends and help us grow! New tools coming every week.
+    </p>
+    <p>
+      💬 Need help or suggestions? Contact us at <b>mychoose.online@gmail.com</b>
+    </p>
+  </section>
 
   <footer>
-    © 2025 mychoose.online | Made with ❤️ for India
+    &copy; 2025 myChoose.online — Made with ❤️ in India
   </footer>
 
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark");
-    }
-  </script>
 </body>
 </html>
