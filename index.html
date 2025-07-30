@@ -1,328 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MyChoose Tools - Premium PDF & Image Tools</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --primary-light: #1e3a8a;
-      --accent-light: #3b82f6;
-      --background-light: #f1f5f9;
-      --text-light: #111827;
-      --card-light: #ffffff;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Website</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-      --primary-dark: #1e40af;
-      --accent-dark: #60a5fa;
-      --background-dark: #0f172a;
-      --text-dark: #e5e7eb;
-      --card-dark: #1e293b;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--background-light);
-      color: var(--text-light);
-      transition: all 0.4s ease;
-    }
+        header {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
 
-    body.dark {
-      background-color: var(--background-dark);
-      color: var(--text-dark);
-    }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1rem;
+        }
 
-    header {
-      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
-      color: white;
-      padding: 3rem 1.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+        .main-content {
+            padding: 20px;
+        }
 
-    body.dark header {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-dark) 100%);
-    }
+        .grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.025em;
-    }
+        .grid-item {
+            background: #f4f4f4;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-    header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
 
-    .toggle-container {
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            body {
+                font-size: 18px;
+            }
 
-    .toggle-container label {
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
+            header {
+                padding: 20px;
+            }
 
-    #darkToggle {
-      display: none;
-    }
+            nav {
+                display: flex;
+                justify-content: center;
+            }
 
-    .toggle-switch {
-      width: 40px;
-      height: 20px;
-      background: #ccc;
-      border-radius: 20px;
-      position: relative;
-      transition: background 0.3s;
-    }
+            nav a {
+                margin: 0 20px;
+                font-size: 1.2rem;
+            }
 
-    .toggle-switch::before {
-      content: '';
-      width: 16px;
-      height: 16px;
-      background: white;
-      border-radius: 50%;
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      transition: transform 0.3s;
-    }
+            .main-content {
+                display: flex;
+                gap: 20px;
+            }
 
-    #darkToggle:checked + .toggle-switch {
-      background: var(--accent-light);
-    }
+            .grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
 
-    body.dark #darkToggle:checked + .toggle-switch {
-      background: var(--accent-dark);
-    }
-
-    #darkToggle:checked + .toggle-switch::before {
-      transform: translateX(20px);
-    }
-
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .tool-card {
-      background-color: var(--card-light);
-      padding: 2rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    body.dark .tool-card {
-      background-color: var(--card-dark);
-      box-shadow: 0 4px 20px rgba(255,255,255,0.05);
-    }
-
-    .tool-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
-    }
-
-    body.dark .tool-card:hover {
-      box-shadow: 0 6px 25px rgba(255,255,255,0.1);
-    }
-
-    .tool-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-light), transparent);
-      opacity: 0.7;
-    }
-
-    body.dark .tool-card::before {
-      background: linear-gradient(90deg, var(--accent-dark), transparent);
-    }
-
-    .tool-card h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-
-    .tool-card p {
-      font-size: 0.95rem;
-      color: #6b7280;
-      margin-bottom: 1rem;
-    }
-
-    body.dark .tool-card p {
-      color: #9ca3af;
-    }
-
-    .tool-card a {
-      display: inline-block;
-      text-decoration: none;
-      color: white;
-      background: var(--accent-light);
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: background 0.3s, transform 0.2s;
-    }
-
-    body.dark .tool-card a {
-      background: var(--accent-dark);
-    }
-
-    .tool-card a:hover {
-      background: var(--primary-light);
-      transform: scale(1.05);
-    }
-
-    body.dark .tool-card a:hover {
-      background: var(--primary-dark);
-    }
-
-    footer {
-      margin-top: 3rem;
-      padding: 2rem 1rem;
-      text-align: center;
-      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
-      color: white;
-    }
-
-    body.dark footer {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-dark) 100%);
-    }
-
-    footer h4 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-
-    footer p {
-      font-size: 0.95rem;
-      max-width: 600px;
-      margin: 0 auto 1rem;
-      opacity: 0.9;
-    }
-
-    .contact a {
-      color: #bfdbfe;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .contact a:hover {
-      color: white;
-      text-decoration: underline;
-    }
-
-    @media (min-width: 768px) {
-      header h1 {
-        font-size: 3rem;
-      }
-
-      header p {
-        font-size: 1.25rem;
-      }
-
-      .tool-card {
-        padding: 2.5rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .tool-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  </style>
+            .grid-item {
+                flex: 1 1 30%;
+                max-width: 30%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>MyChoose Tools</h1>
-    <p>Premium, Free, and Fast Online PDF & Image Conversion Tools</p>
-    <div class="toggle-container">
-      <label>
-        <input type="checkbox" id="darkToggle" onchange="toggleDarkMode()">
-        <span class="toggle-switch"></span>
-        Dark Mode
-      </label>
+    <header>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="main-content">
+            <div class="grid">
+                <div class="grid-item">
+                    <img src="https://via.placeholder.com/300" alt="Sample Image">
+                    <h3>Item 1</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="grid-item">
+                    <img src="https://via.placeholder.com/300" alt="Sample Image">
+                    <h3>Item 2</h3>
+                    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div class="grid-item">
+                    <img src="https://via.placeholder.com/300" alt="Sample Image">
+                    <h3>Item 3</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </header>
-
-  <main>
-    <section class="tool-grid">
-      <div class="tool-card">
-        <h3>Image to PDF</h3>
-        <p>Effortlessly convert JPG/PNG images into high-quality PDF files in seconds.</p>
-        <a href="image-to-pdf/index.html">Use Tool</a>
-      </div>
-      <div class="tool-card">
-        <h3>PNG to JPG</h3>
-        <p>Quickly transform PNG images to JPG format with lossless quality.</p>
-        <a href="png-to-jpg/index.html">Use Tool</a>
-      </div>
-      <!-- Add more tool cards as needed -->
-    </section>
-
-    <footer>
-      <h4>About MyChoose</h4>
-      <p>MyChoose offers premium, free tools for seamless image and document conversion. Fast, secure, and designed for everyone.</p>
-
-      <h4>Support & Contact</h4>
-      <p class="contact">Need assistance? Reach out at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
-
-      <p>© 2025 MyChoose. All rights reserved.</p>
-    </footer>
-  </main>
-
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark");
-      localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-    }
-
-    // Load dark mode preference from localStorage
-    document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark');
-        document.getElementById('darkToggle').checked = true;
-      }
-    });
-  </script>
 </body>
 </html>
