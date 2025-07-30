@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MyChoose Tools - Free PDF & Image Tools</title>
+  <title>MyChoose Tools - Free Online PDF & Image Tools</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -13,13 +13,9 @@
       --card-light: #ffffff;
 
       --primary-dark: #0d1e3f;
-      --background-dark: #0b1120;
+      --background-dark: #111827;
       --text-dark: #f3f4f6;
       --card-dark: #1f2937;
-    }
-
-    * {
-      box-sizing: border-box;
     }
 
     body {
@@ -38,72 +34,75 @@
     header {
       background-color: var(--primary-light);
       color: white;
-      padding: 30px 20px;
+      padding: 25px 20px;
       text-align: center;
     }
 
-    body.dark header {
-      background-color: var(--primary-dark);
-    }
-
     header h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
       margin: 0;
     }
 
     header p {
       font-size: 1rem;
-      margin: 8px 0 0;
+      margin-top: 6px;
     }
 
     .toggle-container {
       text-align: right;
       padding: 10px 20px;
-      font-size: 0.95rem;
     }
 
     .toggle-container label {
       cursor: pointer;
+      font-size: 0.95rem;
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: auto;
       padding: 20px;
     }
 
+    h2.category-title {
+      font-size: 1.4rem;
+      margin: 40px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .tool-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
-      margin-top: 30px;
     }
 
     .tool-card {
       background-color: var(--card-light);
       padding: 20px;
-      border-radius: 16px;
+      border-radius: 14px;
       text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s, background-color 0.3s;
+      box-shadow: 0 0 8px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease;
     }
 
     .tool-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-3px);
     }
 
     body.dark .tool-card {
       background-color: var(--card-dark);
-      box-shadow: 0 2px 12px rgba(255,255,255,0.05);
+      box-shadow: 0 0 8px rgba(255,255,255,0.05);
     }
 
     .tool-card h3 {
       margin-bottom: 10px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     .tool-card p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #555;
     }
 
@@ -113,14 +112,14 @@
 
     .tool-card a {
       display: inline-block;
-      margin-top: 12px;
+      margin-top: 10px;
       text-decoration: none;
       color: white;
       background: #1e90ff;
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 8px;
       font-size: 0.9rem;
-      transition: background 0.2s;
+      transition: 0.2s;
     }
 
     .tool-card a:hover {
@@ -128,7 +127,7 @@
     }
 
     footer {
-      margin-top: 50px;
+      margin-top: 60px;
       padding: 30px 20px;
       text-align: center;
       background-color: var(--primary-light);
@@ -155,11 +154,7 @@
 
     @media (min-width: 768px) {
       header h1 {
-        font-size: 2.8rem;
-      }
-
-      header p {
-        font-size: 1.1rem;
+        font-size: 2.5rem;
       }
     }
   </style>
@@ -167,7 +162,7 @@
 <body>
   <header>
     <h1>MyChoose Tools</h1>
-    <p>All-in-One Free PDF & Image Tools – Fast & Easy</p>
+    <p>All-in-One Free PDF, Image & Utility Tools</p>
   </header>
 
   <div class="toggle-container">
@@ -177,6 +172,8 @@
   </div>
 
   <main>
+    <!-- 🔴 Image Tools -->
+    <h2 class="category-title">🔴 Image Tools</h2>
     <section class="tool-grid">
       <div class="tool-card">
         <h3>Image to PDF</h3>
@@ -188,19 +185,53 @@
         <p>Convert PNG images to JPG format in seconds.</p>
         <a href="png-to-jpg/index.html">Use Tool</a>
       </div>
-      <!-- Add more tool cards here -->
     </section>
+
+    <!-- 🔵 PDF Tools -->
+    <h2 class="category-title">🔵 PDF Tools</h2>
+    <section class="tool-grid">
+      <div class="tool-card">
+        <h3>Merge PDF</h3>
+        <p>Combine multiple PDF files into one.</p>
+        <a href="#">Coming Soon</a>
+      </div>
+      <div class="tool-card">
+        <h3>Compress PDF</h3>
+        <p>Reduce file size of your PDF easily.</p>
+        <a href="#">Coming Soon</a>
+      </div>
+    </section>
+
+    <!-- 🟡 Text Tools -->
+    <h2 class="category-title">🟡 Text Tools</h2>
+    <section class="tool-grid">
+      <div class="tool-card">
+        <h3>Word Counter</h3>
+        <p>Count words and characters in your text.</p>
+        <a href="#">Coming Soon</a>
+      </div>
+    </section>
+
+    <!-- 🟢 Utility Tools -->
+    <h2 class="category-title">🟢 Utility Tools</h2>
+    <section class="tool-grid">
+      <div class="tool-card">
+        <h3>QR Code Generator</h3>
+        <p>Create QR codes for links, text, or contact info.</p>
+        <a href="#">Coming Soon</a>
+      </div>
+    </section>
+
+    <footer>
+      <h4>About MyChoose</h4>
+      <p>MyChoose is your free online platform for image and document tools. We make file conversion simple, fast, and secure for everyone.</p>
+
+      <h4>Support & Contact</h4>
+      <p class="contact">Need help? Contact us at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
+
+      <p>© 2025 MyChoose. All rights reserved.</p>
+    </footer>
   </main>
-
-  <footer>
-    <h4>About MyChoose</h4>
-    <p>MyChoose is your free online platform for image and document tools. We make file conversion simple, fast, and secure for everyone.</p>
-
-    <h4>Support & Contact</h4>
-    <p class="contact">Need help? Email us at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
-
-    <p>© 2025 MyChoose. All rights reserved.</p>
-  </footer>
 
   <script>
     function toggleDarkMode() {
