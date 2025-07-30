@@ -69,18 +69,22 @@
 
     .tool-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       margin-top: 30px;
     }
 
     .tool-card {
       background-color: var(--card-light);
-      padding: 20px;
+      padding: 16px;
       border-radius: 16px;
       text-align: center;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 180px;
     }
 
     body.dark .tool-card {
@@ -89,27 +93,24 @@
     }
 
     .tool-card h3 {
-      margin-bottom: 10px;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
     }
 
-    .tool-card p {
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    body.dark .tool-card p {
-      color: #ccc;
+    .tool-icon {
+      font-size: 2.5rem;
+      margin: 10px 0;
     }
 
     .tool-card a {
       display: inline-block;
-      margin-top: 10px;
+      margin-top: auto;
       text-decoration: none;
       color: white;
       background: #1e90ff;
-      padding: 8px 14px;
+      padding: 6px 12px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       transition: 0.2s;
     }
 
@@ -145,7 +146,7 @@
 
     @media (min-width: 768px) {
       header h1 {
-        font-size: 2.5rem;
+        font-size: 2.4rem;
       }
     }
   </style>
@@ -166,13 +167,27 @@
     <section class="tool-grid">
       <div class="tool-card">
         <h3>Image to PDF</h3>
-        <p>Convert JPG/PNG images into PDF files instantly.</p>
+        <div class="tool-icon">🖼️➡️📄</div>
         <a href="image-to-pdf/index.html">Use Tool</a>
       </div>
+
       <div class="tool-card">
         <h3>PNG to JPG</h3>
-        <p>Convert PNG images to JPG format in seconds.</p>
+        <div class="tool-icon">🖼️🔁🖼️</div>
         <a href="png-to-jpg/index.html">Use Tool</a>
+      </div>
+
+      <!-- New tools added here line-by-line -->
+      <div class="tool-card">
+        <h3>Compress Image</h3>
+        <div class="tool-icon">📉🖼️</div>
+        <a href="#">Coming Soon</a>
+      </div>
+
+      <div class="tool-card">
+        <h3>Crop Image</h3>
+        <div class="tool-icon">✂️🖼️</div>
+        <a href="#">Coming Soon</a>
       </div>
     </section>
 
