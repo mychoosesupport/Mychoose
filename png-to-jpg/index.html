@@ -3,74 +3,106 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Premium PNG to JPG Converter</title>
+    <title>Pro PNG to JPG Converter</title>
     <style>
-        * {margin: 0; padding: 0; box-sizing: border-box;}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #121212;
-            color: #f0f0f0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #121212, #1a1a1a);
+            color: #e0e0e0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            min-height: 100vh;
             padding: 2rem;
-            height: 100vh;
         }
         h1 {
-            margin-bottom: 1rem;
-            font-weight: 700;
-            text-align: center;
-            color: #1DB954;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #1DB954, #4CAF50);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         #drop-area {
             border: 3px dashed #1DB954;
             border-radius: 20px;
             width: 100%;
-            max-width: 500px;
-            padding: 2rem;
+            max-width: 600px;
+            padding: 3rem;
             text-align: center;
             cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s;
+            transition: all 0.3s ease;
+            background: rgba(29, 185, 84, 0.1);
         }
         #drop-area.highlight {
-            background-color: rgba(29, 185, 84, 0.2);
-            border-color: #1DB954;
+            background: rgba(29, 185, 84, 0.3);
+            border-color: #4CAF50;
+            transform: scale(1.02);
         }
-        input[type=file] {
-            display: none;
-        }
+        input[type=file] { display: none; }
         button {
-            background-color: #1DB954;
-            color: #121212;
+            background: linear-gradient(45deg, #1DB954, #4CAF50);
+            color: #fff;
             border: none;
-            border-radius: 10px;
-            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            padding: 0.8rem 2rem;
             cursor: pointer;
             font-weight: 600;
-            transition: background-color 0.3s;
-            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
         }
         button:hover {
-            background-color: #17a544;
+            background: linear-gradient(45deg, #17a544, #3d8b40);
+            transform: translateY(-2px);
+        }
+        #controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 1.5rem 0;
+            background: #1e1e1e;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1DB954;
+        }
+        input[type=range], input[type=text] {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: #2a2a2a;
+            border: 1px solid #333;
+            color: #e0e0e0;
         }
         #output {
             margin-top: 2rem;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
         }
         .preview {
-            background: #222;
+            background: #1e1e1e;
             border-radius: 15px;
             padding: 1rem;
-            position: relative;
-            box-shadow: 0 0 15px rgba(29, 185, 84, 0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .preview:hover {
+            transform: translateY(-5px);
         }
         .preview img {
             max-width: 100%;
@@ -79,56 +111,63 @@
             max-height: 150px;
             object-fit: contain;
         }
+        .preview-info {
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
         .preview button {
-            margin-top: 0;
-            background-color: #444;
-            color: #ddd;
             width: 100%;
-            border-radius: 10px;
-            padding: 0.5rem;
-            font-size: 0.9rem;
-        }
-        .preview button:hover {
-            background-color: #666;
-        }
-        label {
-            margin-top: 1rem;
-            font-weight: 600;
-            display: block;
-            text-align: center;
-        }
-        input[type=range] {
-            width: 100%;
-            max-width: 500px;
             margin-top: 0.5rem;
+        }
+        #batch-status {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #1DB954;
+            display: none;
         }
         #footer {
             margin-top: auto;
-            font-size: 0.8rem;
-            color: #555;
-            text-align: center;
             padding: 1rem;
-            width: 100%;
-            max-width: 600px;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(29, 185, 84, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0); }
         }
     </style>
 </head>
 <body>
-    <h1>Premium PNG to JPG Converter</h1>
+    <h1>Pro PNG to JPG Converter</h1>
 
     <div id="drop-area">
         <form class="my-form">
-            <p>Drag & Drop PNG files here, or <label for="fileElem" style="color:#1DB954; cursor:pointer;">browse</label> to select</p>
+            <p>Drag & Drop PNG files or <label for="fileElem" style="color:#1DB954; cursor:pointer;">browse</label></p>
             <input type="file" id="fileElem" multiple accept="image/png">
         </form>
     </div>
 
-    <label for="qualityRange">Output JPG Quality: <span id="qualityValue">90</span>%</label>
-    <input type="range" id="qualityRange" min="10" max="100" value="90">
+    <div id="controls">
+        <div class="control-group">
+            <label for="qualityRange">JPG Quality: <span id="qualityValue">90</span>%</label>
+            <input type="range" id="qualityRange" min="10" max="100" value="90">
+        </div>
+        <div class="control-group">
+            <label for="watermarkText">Watermark (optional):</label>
+            <input type="text" id="watermarkText" placeholder="Enter watermark text">
+        </div>
+        <div class="control-group">
+            <label for="batchConvert">Batch Convert:</label>
+            <button id="batchConvert">Convert All</button>
+        </div>
+    </div>
 
+    <div id="batch-status"></div>
     <div id="output"></div>
-
-    <div id="footer">Designed by Your Premium Tool</div>
+    <div id="footer">Designed by Pro Converter Tools © 2025</div>
 
 <script>
 const dropArea = document.getElementById('drop-area');
@@ -136,96 +175,140 @@ const fileElem = document.getElementById('fileElem');
 const output = document.getElementById('output');
 const qualityRange = document.getElementById('qualityRange');
 const qualityValue = document.getElementById('qualityValue');
+const watermarkText = document.getElementById('watermarkText');
+const batchConvert = document.getElementById('batchConvert');
+const batchStatus = document.getElementById('batch-status');
 
 qualityRange.addEventListener('input', () => {
     qualityValue.textContent = qualityRange.value;
-    // Quality change updates only on conversion
 });
 
-function preventDefaults (e) {
-  e.preventDefault();
-  e.stopPropagation();
+function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
 }
 
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, preventDefaults, false);
+    dropArea.addEventListener(eventName, preventDefaults, false);
 });
 
 dropArea.addEventListener('dragenter', () => {
-  dropArea.classList.add('highlight');
+    dropArea.classList.add('highlight');
 });
 
 dropArea.addEventListener('dragleave', () => {
-  dropArea.classList.remove('highlight');
+    dropArea.classList.remove('highlight');
 });
 
 dropArea.addEventListener('drop', (e) => {
-  dropArea.classList.remove('highlight');
-  const dt = e.dataTransfer;
-  const files = dt.files;
-  handleFiles(files);
+    dropArea.classList.remove('highlight');
+    handleFiles(e.dataTransfer.files);
 });
 
-fileElem.addEventListener('change', (e) => {
-  handleFiles(fileElem.files);
+fileElem.addEventListener('change', () => {
+    handleFiles(fileElem.files);
 });
+
+let filesData = [];
 
 function handleFiles(files) {
-  [...files].forEach(file => {
-    if (file.type === 'image/png') {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        createPreview(event.target.result, file.name);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert('Only PNG files are supported');
+    filesData = [];
+    output.innerHTML = '';
+    batchStatus.style.display = 'none';
+    [...files].forEach(file => {
+        if (file.type === 'image/png') {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                filesData.push({ file, dataURL: event.target.result });
+                createPreview(event.target.result, file.name, file.size);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Only PNG files are supported');
+        }
+    });
+}
+
+function createPreview(dataURL, name, size) {
+    const div = document.createElement('div');
+    div.classList.add('preview');
+
+    const img = document.createElement('img');
+    img.src = dataURL;
+    div.appendChild(img);
+
+    const info = document.createElement('div');
+    info.classList.add('preview-info');
+    info.textContent = `Original: ${(size / 1024).toFixed(2)} KB`;
+    div.appendChild(info);
+
+    const btn = document.createElement('button');
+    btn.textContent = 'Download JPG';
+    btn.addEventListener('click', () => {
+        convertPNGtoJPGandDownload(dataURL, name, info);
+    });
+    div.appendChild(btn);
+
+    output.appendChild(div);
+}
+
+function convertPNGtoJPGandDownload(dataURL, filename, infoElement) {
+    const canvas = document.createElement('canvas');
+    const img = new Image();
+    img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+
+        if (watermarkText.value) {
+            ctx.font = '20px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.textAlign = 'right';
+            ctx.fillText(watermarkText.value, canvas.width - 10, canvas.height - 10);
+        }
+
+        const quality = qualityRange.value / 100;
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename.replace(/\.png$/i, '.jpg');
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+
+            if (infoElement) {
+                infoElement.textContent += ` | JPG: ${(blob.size / 1024).toFixed(2)} KB`;
+            }
+        }, 'image/jpeg', quality);
+    };
+    img.src = dataURL;
+}
+
+batchConvert.addEventListener('click', () => {
+    if (!filesData.length) {
+        alert('No files to convert');
+        return;
     }
-  });
-}
 
-function createPreview(src, name) {
-  const div = document.createElement('div');
-  div.classList.add('preview');
+    batchStatus.style.display = 'block';
+    batchStatus.textContent = `Converting ${filesData.length} files...`;
+    
+    let completed = 0;
+    filesData.forEach(({ dataURL, file }, index) => {
+        convertPNGtoJPGandDownload(dataURL, file.name, output.children[index].querySelector('.preview-info'));
+        completed++;
+        batchStatus.textContent = `Converted ${completed}/${filesData.length} files`;
+    });
 
-  const img = document.createElement('img');
-  img.src = src;
-  div.appendChild(img);
-
-  const btn = document.createElement('button');
-  btn.textContent = 'Download JPG';
-  btn.addEventListener('click', () => {
-    convertPNGtoJPGandDownload(src, name);
-  });
-  div.appendChild(btn);
-
-  output.appendChild(div);
-}
-
-function convertPNGtoJPGandDownload(dataURL, filename) {
-  const canvas = document.createElement('canvas');
-  const img = new Image();
-  img.onload = function() {
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0);
-    const quality = qualityRange.value / 100;
-    canvas.toBlob(function(blob) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename.replace(/\.png$/i, '.jpg');
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }, 'image/jpeg', quality);
-  };
-  img.src = dataURL;
-}
+    setTimeout(() => {
+        batchStatus.style.display = 'none';
+    }, 3000);
+});
 </script>
 </body>
 </html>
