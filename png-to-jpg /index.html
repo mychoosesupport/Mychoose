@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PNG to JPG Converter - MyChoose</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+    body {
+      background: #f5f7fa;
+      color: #111;
+      padding: 2rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dark-mode {
+      background: #121212;
+      color: #f0f0f0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .dark-mode .container {
+      background: #1e1e1e;
+      box-shadow: 0 10px 30px rgba(255,255,255,0.05);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .upload-box {
+      border: 2px dashed #999;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      background: #fafafa;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+    .upload-box:hover {
+      background: #f0f0f0;
+    }
+    .dark-mode .upload-box {
+      background: #2a2a2a;
+      border-color: #666;
+    }
+    #fileInput {
+      display: none;
+    }
+    .preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+    .preview img {
+      width: 100px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    button {
+      display: block;
+      margin: 2rem auto 0;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .dark-mode button {
+      background: #3399ff;
+    }
+    .toggle {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .toggle button {
+      background: #eee;
+      color: #333;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+    .dark-mode .toggle button {
+      background: #333;
+      color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🖼️ PNG to JPG Converter</h1>
+
+    <label for="fileInput" class="upload-box" id="dropArea">
+      Click or Drag & Drop PNG files here
+    </label>
+    <input type="file" id="fileInput" accept="image/png" multiple />
+
+    <div class="preview" id="preview"></div>
+
+    <button onclick="convertImages()">Convert to JPG</button>
+
+    <div class="toggle">
+      <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    </div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
+    const dropArea = document.getElementById("dropArea");
+    let images = [];
+
+    fileInput.addEventListener("change", handleFiles);
+    dropArea.addEventListener("click", () => fileInput.click());
+    dropArea.addEventListener("dragover", e => {
+      e.preventDefault();
+      dropArea.style.background = "#e0e0e0";
+    });
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.style.background = "#fafafa";
+    });
+    dropArea.addEventListener("drop", e => {
+      e.preventDefault();
+      dropArea.style.background = "#fafafa";
+      const files = Array.from(e.dataTransfer.files).filter(file => file.type === "image/png");
+      previewImages(files);
+    });
+
+    function handleFiles(e) {
+      const files = Array.from(e.target.files).filter(file => file.type === "image/png");
+      previewImages(files);
+    }
+
+    function previewImages(files) {
+      preview.innerHTML = "";
+      images = [];
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          preview.appendChild(img);
+          images.push({ name: file.name, dataURL: e.target.result });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function convertImages() {
+      images.forEach((img, index) => {
+        const canvas = document.createElement("canvas");
+        const image = new Image();
+        image.onload = () => {
+          canvas.width = image.width;
+          canvas.height = image.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(image, 0, 0);
+          canvas.toBlob(blob => {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = img.name.replace(".png", ".jpg");
+            link.click();
+          }, "image/jpeg", 0.95);
+        };
+        image.src = img.dataURL;
+      });
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+
+</body>
+      </html>
