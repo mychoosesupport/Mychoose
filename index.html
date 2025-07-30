@@ -3,90 +3,184 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MyChoose - Free Online Tools</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <title>MyChoose Tools - Free Online PDF & Image Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
   <style>
+    :root {
+      --primary-blue: #2563eb;
+      --primary-gradient: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+      --background: #f6f8fb;
+      --header-bg: #fff;
+      --footer-bg: #f1f5f9;
+      --card-bg: #fff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+    }
     body {
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 0;
-      transition: background-color 0.3s, color 0.3s;
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
     }
-    .dark-mode {
-      background-color: #121212;
-      color: white;
+    header {
+      background: var(--header-bg);
+      box-shadow: 0 1px 8px rgba(30, 41, 59, 0.05);
+      padding: 30px 0 16px 0;
+      position: sticky; top: 0; z-index: 99;
     }
-    .header {
-      padding: 1rem;
-      text-align: center;
-      background-color: #4CAF50;
-      color: white;
-    }
-    .tools-container {
-      padding: 2rem 1rem;
+    .navbar {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
-    .tool-card {
-      background: #f2f2f2;
-      border-radius: 10px;
-      padding: 1rem 2rem;
-      margin: 1rem 0;
-      width: 100%;
-      max-width: 600px;
-      text-align: center;
-      transition: background 0.3s;
-    }
-    .dark-mode .tool-card {
-      background: #1f1f1f;
-    }
-    .footer {
-      background-color: #f9f9f9;
-      color: #333;
-      padding: 2rem 1rem;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-    .dark-mode .footer {
-      background-color: #1a1a1a;
-      color: #ccc;
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .dark-toggle {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      cursor: pointer;
+      border: none; background: none; font-size: 1.1rem; cursor: pointer;
+      color: var(--muted);
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .dark-toggle:hover { background: #e0e7ef; }
+    main {
+      max-width: 1100px; margin: 0 auto; padding: 48px 24px 0 24px;
+    }
+    .headline {
+      font-size: 2.3rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 10px;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subhead {
+      font-size: 1.14rem;
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+      gap: 28px;
+      margin-top: 24px;
+    }
+    .tool-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 32px 18px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .tool-card:hover {
+      transform: translateY(-4px) scale(1.015);
+      box-shadow: 0 8px 28px rgba(37,99,235,0.13);
+    }
+    .tool-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.13rem;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--primary-blue);
+    }
+    .tool-card p {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .tool-card a {
+      display: inline-block;
+      background: var(--primary-gradient);
+      color: #fff;
+      padding: 9px 22px;
+      border-radius: 7px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      box-shadow: 0 2px 12px rgba(96,165,250,0.10);
+      transition: background 0.18s;
+    }
+    .tool-card a:hover {
+      background: linear-gradient(90deg, #1d4ed8 10%, #38bdf8 90%);
+    }
+    footer {
+      background: var(--footer-bg);
+      color: var(--muted);
+      padding: 34px 24px;
+      text-align: center;
+      font-size: 1.04rem;
+      margin-top: 60px;
+      border-top: 1px solid #eef2f7;
+    }
+    footer h4 {
+      color: var(--primary-blue);
+      margin-top: 14px;
+      margin-bottom: 4px;
+      font-size: 1.09rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .contact a {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+    @media (min-width: 800px) {
+      .headline { font-size: 2.9rem; }
     }
   </style>
 </head>
 <body>
-  <div class="dark-toggle">
-    <button onclick="toggleDarkMode()" class="btn btn-outline-secondary btn-sm">🌓 Toggle Dark Mode</button>
-  </div>
-
-  <div class="header">
-    <h1>MyChoose Tools</h1>
-    <p>Fast, Simple, and Free Online Tool</p>
-  </div>
-
-  <div class="tools-container">
-    <div class="tool-card">
-      <h3>📄 Image to PDF Converter</h3>
-      <p>Convert your images into PDF files easily and quickly.</p>
-      <a href="/image-to-pdf" class="btn btn-success">Open Tool</a>
+  <header>
+    <div class="navbar">
+      <span class="logo">MyChoose</span>
+      <button class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()">🌙</button>
     </div>
-  </div>
+  </header>
 
-  <div class="footer">
-    <p><strong>About:</strong> MyChoose is a collection of free online tools built for everyone to simplify daily tasks.</p>
-    <p><strong>Contact:</strong> <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
-    <p>&copy; 2025 MyChoose. All rights reserved.</p>
-  </div>
+  <main>
+    <div class="headline">All-in-One PDF & Image Toolkit</div>
+    <div class="subhead">Convert, Compress & Transform Files – Fast, Free & Secure</div>
+    <section class="tool-grid">
+      <div class="tool-card">
+        <h3>Image to PDF</h3>
+        <p>Turn your images (JPG/PNG) into a single PDF instantly, without quality loss.</p>
+        <a href="image-to-pdf/index.html">Try Now</a>
+      </div>
+      <div class="tool-card">
+        <h3>PNG to JPG</h3>
+        <p>Convert PNGs to high-quality JPGs quickly, online and without watermarks.</p>
+        <a href="png-to-jpg/index.html">Try Now</a>
+      </div>
+      <!-- Add more tools here as needed -->
+    </section>
+  </main>
+
+  <footer>
+    <h4>About MyChoose</h4>
+    <p>Free, easy & private tools for image and document conversion. No registration needed – your files stay secure with us.</p>
+    <h4>Support & Contact</h4>
+    <p class="contact">Questions? Email <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
+    <p>© 2025 MyChoose. All rights reserved.</p>
+  </footer>
 
   <script>
     function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
+      document.body.classList.toggle('dark');
     }
   </script>
 </body>
