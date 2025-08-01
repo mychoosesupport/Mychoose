@@ -4,23 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MyChoose Tools - Free Image to PDF & PNG to JPG Converter</title>
-  <meta name="description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy-to-use online tools for everyone.">
-  <meta name="keywords" content="free image to PDF, PNG to JPG, online converter, PDF tools, image converter, MyChoose Tools">
+  <meta name="description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools.">
+  <meta name="keywords" content="free image to PDF, PNG to JPG, online converter, PDF tools, image converter">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://yourwebsite.com/">
-  <!-- Open Graph Tags for Social Media -->
+  <!-- Open Graph Tags -->
   <meta property="og:title" content="MyChoose Tools - Free Image to PDF & PNG to JPG Converter">
-  <meta property="og:description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy-to-use online tools.">
+  <meta property="og:description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools.">
   <meta property="og:image" content="https://yourwebsite.com/og-image.jpg">
   <meta property="og:url" content="https://yourwebsite.com">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MyChoose Tools - Free Image to PDF & PNG to JPG Converter">
-  <meta name="twitter:description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy-to-use online tools.">
-  <meta name="twitter:image" content="https://yourwebsite.com/og-image.jpg">
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
   <!-- Schema Markup -->
   <script type="application/ld+json">
   {
@@ -28,12 +21,7 @@
     "@type": "WebSite",
     "name": "MyChoose Tools",
     "url": "https://yourwebsite.com",
-    "description": "Free online tools for image to PDF and PNG to JPG conversion",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://yourwebsite.com/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    "description": "Free online tools for image to PDF and PNG to JPG conversion"
   }
   </script>
   <!-- Google Analytics -->
@@ -44,6 +32,8 @@
     gtag('js', new Date());
     gtag('config', 'UA-XXXXX-Y');
   </script>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --primary-light: #1e3a8a;
@@ -313,7 +303,7 @@
 <body>
   <header>
     <h1>MyChoose Tools</h1>
-    <p>Free, Fast, and Secure Online Image to PDF & PNG to JPG Conversion Tools</p>
+    <p>Free, Fast, and Secure Online Image to PDF & PNG to JPG Tools</p>
     <div class="toggle-container">
       <label>
         <input type="checkbox" id="darkToggle" onchange="toggleDarkMode()">
@@ -326,23 +316,20 @@
   <main>
     <section class="tool-grid">
       <div class="tool-card">
-        <h3>Free Image to PDF</h3>
-        <p>Convert JPG or PNG images to high-quality PDF files for free in seconds. Perfect for documents, presentations, or sharing multiple images.</p>
-        <a href="image-to-pdf/index.html">Try Free Now</a>
-        <p><small>Also try our <a href="png-to-jpg/index.html">Free PNG to JPG Converter</a></small></p>
+        <h3>Image to PDF</h3>
+        <p>Convert JPG/PNG images to PDF for free in seconds.</p>
+        <a href="image-to-pdf/index.html">Use Tool</a>
       </div>
       <div class="tool-card">
-        <h3>Free PNG to JPG</h3>
-        <p>Transform PNG images to JPG format for free with lossless quality. Ideal for web use or reducing file size.</p>
-        <a href="png-to-jpg/index.html">Try Free Now</a>
-        <p><small>Also try our <a href="image-to-pdf/index.html">Free Image to PDF Converter</a></small></p>
+        <h3>PNG to JPG</h3>
+        <p>Transform PNG images to JPG for free with high quality.</p>
+        <a href="png-to-jpg/index.html">Use Tool</a>
       </div>
-      <!-- Add more tool cards as needed -->
     </section>
 
     <footer>
       <h4>About MyChoose</h4>
-      <p>MyChoose offers free tools for seamless image to PDF and PNG to JPG conversion. Fast, secure, and designed for everyone.</p>
+      <p>MyChoose offers free tools for image to PDF and PNG to JPG conversion. Fast, secure, and easy to use.</p>
 
       <h4>Support & Contact</h4>
       <p class="contact">Need help? Reach out at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
@@ -357,7 +344,6 @@
       localStorage.setItem('darkMode', document.body.classList.contains('dark'));
     }
 
-    // Load dark mode preference from localStorage
     document.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark');
