@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Image Resizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0f7ff, #b3e5fc);
+            color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background: linear-gradient(135deg, #1a2529, #2c3e50);
+            color: #e0e0e0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .container {
+            background: rgba(44, 62, 80, 0.95);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e90ff;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .dark-mode h1 {
+            color: #40c4ff;
+        }
+
+        .upload-area {
+            border: 3px dashed #1e90ff;
+            border-radius: 12px;
+            padding: 50px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .upload-area {
+            border-color: #40c4ff;
+            background: rgba(44, 62, 80, 0.5);
+        }
+
+        .upload-area:hover {
+            transform: scale(1.02);
+            background: rgba(230, 240, 255, 0.8);
+        }
+
+        .dark-mode .upload-area:hover {
+            background: rgba(64, 84, 105, 0.8);
+        }
+
+        .upload-area p {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .dark-mode .upload-area p {
+            color: #ccc;
+        }
+
+        .upload-icon {
+            font-size: 50px;
+            color: #1e90ff;
+            margin-bottom: 10px;
+        }
+
+        .dark-mode .upload-icon {
+            color: #40c4ff;
+        }
+
+        #image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 15px;
+            display: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .options {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            max-width: 100%;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .options.show {
+            display: grid;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .option {
+            background: rgba(44, 62, 80, 0.8);
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #1e90ff;
+            border-radius: 6px;
+            background: #fff;
+            color: #333;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode input, .dark-mode select {
+            background: #34495e;
+            color: #e0e0e0;
+            border-color: #40c4ff;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #40c4ff;
+            box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1e90ff, #40c4ff);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #40c4ff, #1e90ff);
+        }
+
+        .dark-mode button {
+            background: linear-gradient(135deg, #40c4ff, #1e90ff);
+        }
+
+        #resize-btn, #download-btn, #undo-btn, #redo-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #download-btn {
+            display: none;
+            background: linear-gradient(135deg, #28a745, #2ecc71);
+        }
+
+        #download-btn:hover {
+            background: linear-gradient(135deg, #2ecc71, #28a745);
+        }
+
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #1e90ff;
+            border-radius: 8px;
+        }
+
+        .dark-mode #theme-toggle {
+            background: #40c4ff;
+        }
+
+        .crop-container {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .crop-container.show {
+            display: block;
+        }
+
+        #crop-canvas {
+            border: 1px solid #1e90ff;
+            border-radius: 8px;
+            max-width: 100%;
+        }
+
+        .dark-mode #crop-canvas {
+            border-color: #40c4ff;
+        }
+
+        .stats {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .dark-mode .stats {
+            color: #ccc;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            .upload-area {
+                padding: 30px;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="theme-toggle">Toggle Dark Mode</button>
+    <div class="container">
+        <h1>Image Resizer</h1>
+        <div class="upload-area" id="upload-area">
+            <span class="upload-icon">📷</span>
+            <p>Drag & Drop Your Image or Click to Upload</p>
+            <input type="file" id="image-input" accept="image/*" multiple hidden>
+            <img id="image-preview" alt="Image Preview">
+        </div>
+        <div class="crop-container" id="crop-container">
+            <canvas id="crop-canvas"></canvas>
+            <button id="crop-btn">Crop Image</button>
+        </div>
+        <div class="options" id="options">
+            <div class="option">
+                <label for="width">Width (px):</label>
+                <input type="number" id="width" min="1" placeholder="Width">
+            </div>
+            <div class="option">
+                <label for="height">Height (px):</label>
+                <input type="number" id="height" min="1" placeholder="Height">
+            </div>
+            <div class="option">
+                <label for="aspect-ratio">Lock Aspect Ratio:</label>
+                <input type="checkbox" id="aspect-ratio" checked>
+            </div>
+            <div class="option">
+                <label for="scale">Scale (%):</label>
+                <input type="number" id="scale" min="1" max="500" placeholder="100">
+            </div>
+            <div class="option">
+                <label for="preset">Preset Resolution:</label>
+                <select id="preset">
+                    <option value="">Select Preset</option>
+                    <option value="1920x1080">1920x1080 (Full HD)</option>
+                    <option value="1280x720">1280x720 (HD)</option>
+                    <option value="800x600">800x600</option>
+                    <option value="400x300">400x300</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="format">Output Format:</label>
+                <select id="format">
+                    <option value="image/jpeg">JPEG</option>
+                    <option value="image/png">PNG</option>
+                    <option value="image/webp">WebP</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="quality">Quality (0-100):</label>
+                <input type="number" id="quality" min="0" max="100" value="80">
+            </div>
+            <div class="option">
+                <label for="filter">Filter:</label>
+                <select id="filter">
+                    <option value="none">None</option>
+                    <option value="grayscale">Grayscale</option>
+                    <option value="sepia">Sepia</option>
+                    <option value="brightness">Brightness (+20%)</option>
+                    <option value="contrast">Contrast (+20%)</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="rotation">Rotation (degrees):</label>
+                <input type="number" id="rotation" min="-360" max="360" value="0">
+            </div>
+            <div class="option">
+                <label for="watermark">Watermark Text:</label>
+                <input type="text" id="watermark" placeholder="Enter watermark text">
+            </div>
+            <div class="option">
+                <label for="watermark-position">Watermark Position:</label>
+                <select id="watermark-position">
+                    <option value="bottom-right">Bottom Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="top-right">Top Right</option>
+                    <option value="top-left">Top Left</option>
+                    <option value="center">Center</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="watermark-opacity">Watermark Opacity (0-1):</label>
+                <input type="number" id="watermark-opacity" min="0" max="1" step="0.1" value="0.5">
+            </div>
+        </div>
+        <div class="stats" id="stats" style="display: none;"></div>
+        <button id="undo-btn" style="display: none;">Undo</button>
+        <button id="redo-btn" style="display: none;">Redo</button>
+        <button id="resize-btn" style="display: none;">Resize Image</button>
+        <button id="download-btn" style="display: none;">Download Resized Image(s)</button>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const imagePreview = document.getElementById('image-preview');
+        const cropContainer = document.getElementById('crop-container');
+        const cropCanvas = document.getElementById('crop-canvas');
+        const cropBtn = document.getElementById('crop-btn');
+        const options = document.getElementById('options');
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const aspectRatioCheckbox = document.getElementById('aspect-ratio');
+        const scaleInput = document.getElementById('scale');
+        const presetSelect = document.getElementById('preset');
+        const formatSelect = document.getElementById('format');
+        const qualityInput = document.getElementById('quality');
+        const filterSelect = document.getElementById('filter');
+        const rotationInput = document.getElementById('rotation');
+        const watermarkInput = document.getElementById('watermark');
+        const watermarkPosition = document.getElementById('watermark-position');
+        const watermarkOpacity = document.getElementById('watermark-opacity');
+        const resizeBtn = document.getElementById('resize-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const statsDiv = document.getElementById('stats');
+        const themeToggle = document.getElementById('theme-toggle');
+
+        let images = [];
+        let currentImageIndex = 0;
+        let originalImages = [];
+        let history = [];
+        let historyIndex = -1;
+        let cropper = null;
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode')
+                ? 'Toggle Light Mode'
+                : 'Toggle Dark Mode';
+        });
+
+        // Image Upload
+        uploadArea.addEventListener('click', () => imageInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = 'rgba(230, 240, 255, 0.9)';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.background = '';
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '';
+            handleImages(e.dataTransfer.files);
+        });
+        imageInput.addEventListener('change', () => {
+            handleImages(imageInput.files);
+        });
+
+        function handleImages(files) {
+            images = [];
+            originalImages = [];
+            Array.from(files).forEach(file => {
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            images.push({ src: e.target.result, file, width: img.width, height: img.height });
+                            originalImages.push({ src: e.target.result, file, width: img.width, height: img.height });
+                            if (images.length === 1) {
+                                showImage(0);
+                                options.classList.add('show');
+                                resizeBtn.style.display = 'block';
+                            }
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function showImage(index) {
+            currentImageIndex = index;
+            const img = images[index];
+            imagePreview.src = img.src;
+            imagePreview.style.display = 'block';
+            widthInput.value = img.width;
+            heightInput.value = img.height;
+            scaleInput.value = 100;
+            statsDiv.style.display = 'none';
+            downloadBtn.style.display = 'none';
+            initCropper(img.src);
+        }
+
+        // Cropper
+        function initCropper(src) {
+            cropContainer.style.display = 'block';
+            const ctx = cropCanvas.getContext('2d');
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+                cropCanvas.width = img.width;
+                cropCanvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                cropper = new Cropper(cropCanvas, {
+                    aspectRatio: NaN,
+                    viewMode: 1,
+                    autoCropArea: 1,
+                });
+            };
+        }
+
+        cropBtn.addEventListener('click', () => {
+            if (cropper) {
+                const croppedCanvas = cropper.getCroppedCanvas();
+                images[currentImageIndex].src = croppedCanvas.toDataURL();
+                imagePreview.src = images[currentImageIndex].src;
+                cropper.destroy();
+                cropContainer.style.display = 'none';
+            }
+        });
+
+        // Aspect Ratio Handling
+        widthInput.addEventListener('input', () => {
+            if (aspectRatioCheckbox.checked && images[currentImageIndex]) {
+                const ratio = images[currentImageIndex].width / images[currentImageIndex].height;
+                heightInput.value = Math.round(widthInput.value / ratio);
+            }
+        });
+
+        heightInput.addEventListener('input', () => {
+            if (aspectRatioCheckbox.checked && images[currentImageIndex]) {
+                const ratio = images[currentImageIndex].width / images[currentImageIndex].height;
+                widthInput.value = Math.round(heightInput.value * ratio);
+            }
+        });
+
+        // Scale Input
+        scaleInput.addEventListener('input', () => {
+            if (images[currentImageIndex]) {
+                const scale = parseInt(scaleInput.value) / 100;
+                widthInput.value = Math.round(images[currentImageIndex].width * scale);
+                heightInput.value = Math.round(images[currentImageIndex].height * scale);
+            }
+        });
+
+        // Preset Selection
+        presetSelect.addEventListener('change', () => {
+            const value = presetSelect.value;
+            if (value) {
+                const [w, h] = value.split('x').map(Number);
+                widthInput.value = w;
+                heightInput.value = h;
+                scaleInput.value = '';
+            }
+        });
+
+        // Resize Image
+        resizeBtn.addEventListener('click', () => {
+            if (!images.length) {
+                alert('Please upload an image first!');
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const newWidth = parseInt(widthInput.value) || images[currentImageIndex].width;
+            const newHeight = parseInt(heightInput.value) || images[currentImageIndex].height;
+            const format = formatSelect.value;
+            const quality = parseInt(qualityInput.value) / 100;
+            const filter = filterSelect.value;
+            const rotation = parseInt(rotationInput.value) || 0;
+            const watermark = watermarkInput.value;
+            const wmPosition = watermarkPosition.value;
+            const wmOpacity = parseFloat(watermarkOpacity.value);
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            // Apply rotation
+            ctx.save();
+            ctx.translate(newWidth / 2, newHeight / 2);
+            ctx.rotate((rotation * Math.PI) / 180);
+            ctx.translate(-newWidth / 2, -newHeight / 2);
+            ctx.drawImage(imagePreview, 0, 0, newWidth, newHeight);
+            ctx.restore();
+
+            // Apply filter
+            if (filter !== 'none') {
+                ctx.filter = filter === 'grayscale' ? 'grayscale(100%)' :
+                            filter === 'sepia' ? 'sepia(100%)' :
+                            filter === 'brightness' ? 'brightness(120%)' :
+                            'contrast(120%)';
+                ctx.drawImage(canvas, 0, 0);
+                ctx.filter = 'none';
+            }
+
+            // Apply watermark
+            if (watermark) {
+                ctx.globalAlpha = wmOpacity;
+                ctx.font = '30px Poppins';
+                ctx.fillStyle = '#fff';
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                const textWidth = ctx.measureText(watermark).width;
+                const textHeight = 30;
+                let x, y;
+                switch (wmPosition) {
+                    case 'top-left': x = 10; y = 30; break;
+                    case 'top-right': x = newWidth - textWidth - 10; y = 30; break;
+                    case 'bottom-left': x = 10; y = newHeight - 10; break;
+                    case 'bottom-right': x = newWidth - textWidth - 10; y = newHeight - 10; break;
+                    case 'center': x = (newWidth - textWidth) / 2; y = newHeight / 2; break;
+                }
+                ctx.strokeText(watermark, x, y);
+                ctx.fillText(watermark, x, y);
+                ctx.globalAlpha = 1;
+            }
+
+            const resizedImageUrl = canvas.toDataURL(format, quality);
+            images[currentImageIndex].src = resizedImageUrl;
+            imagePreview.src = resizedImageUrl;
+
+            // Update history
+            history = history.slice(0, historyIndex + 1);
+            history.push({ src: resizedImageUrl, width: newWidth, height: newHeight });
+            historyIndex++;
+            undoBtn.style.display = 'block';
+            redoBtn.style.display = historyIndex < history.length - 1 ? 'block' : 'none';
+
+            // Show stats
+            const originalSize = (originalImages[currentImageIndex].file.size / 1024).toFixed(2);
+            const resizedSize = (resizedImageUrl.length * 0.75 / 1024).toFixed(2); // Approx size
+            statsDiv.style.display = 'block';
+            statsDiv.textContent = `Original Size: ${originalSize} KB | Resized Size: ${resizedSize} KB`;
+
+            downloadBtn.style.display = 'block';
+            downloadBtn.href = resizedImageUrl;
+            downloadBtn.download = `resized-image-${currentImageIndex + 1}.${format.split('/')[1]}`;
+        });
+
+        // Undo/Redo
+        undoBtn.addEventListener('click', () => {
+            if (historyIndex > 0) {
+                historyIndex--;
+                imagePreview.src = history[historyIndex].src;
+                widthInput.value = history[historyIndex].width;
+                heightInput.value = history[historyIndex].height;
+                redoBtn.style.display = 'block';
+                if (historyIndex === 0) undoBtn.style.display = 'none';
+            }
+        });
+
+        redoBtn.addEventListener('click', () => {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                imagePreview.src = history[historyIndex].src;
+                widthInput.value = history[historyIndex].width;
+                heightInput.value = history[historyIndex].height;
+                undoBtn.style.display = 'block';
+                if (historyIndex === history.length - 1) redoBtn.style.display = 'none';
+            }
+        });
+
+        // Reset on new upload
+        imageInput.addEventListener('change', () => {
+            history = [];
+            historyIndex = -1;
+            undoBtn.style.display = 'none';
+            redoBtn.style.display = 'none';
+            cropContainer.style.display = 'none';
+            if (cropper) cropper.destroy();
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+</body>
+</html>
