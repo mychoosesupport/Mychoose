@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MyChoose Tools - Free Image to PDF & PNG to JPG Converter</title>
-  <meta name="description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools.">
-  <meta name="keywords" content="free image to PDF, PNG to JPG, online converter, PDF tools, image converter">
+  <meta name="description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools with 20+ features.">
+  <meta name="keywords" content="free image to PDF, PNG to JPG, online converter, PDF tools, image converter, image resizer, PDF merger, video converter">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yourwebsite.com/">
+  <link rel="canonical" href="https://mychoose.online/">
   <!-- Open Graph Tags -->
   <meta property="og:title" content="MyChoose Tools - Free Image to PDF & PNG to JPG Converter">
-  <meta property="og:description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools.">
-  <meta property="og:image" content="https://yourwebsite.com/og-image.jpg">
-  <meta property="og:url" content="https://yourwebsite.com">
+  <meta property="og:description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools with 20+ features.">
+  <meta property="og:image" content="https://mychoose.online/og-image.jpg">
+  <meta property="og:url" content="https://mychoose.online">
   <meta name="twitter:card" content="summary_large_image">
   <!-- Schema Markup -->
   <script type="application/ld+json">
@@ -20,11 +20,11 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "MyChoose Tools",
-    "url": "https://yourwebsite.com",
-    "description": "Free online tools for image to PDF and PNG to JPG conversion"
+    "url": "https://mychoose.online",
+    "description": "Free online tools for image to PDF, PNG to JPG, and 20+ conversion features"
   }
   </script>
-  <!-- Google Analytics -->
+  <!-- Google Analytics (Replace UA-XXXXX-Y with your ID) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -41,32 +41,27 @@
       --background-light: #f1f5f9;
       --text-light: #111827;
       --card-light: #ffffff;
-
       --primary-dark: #1e40af;
       --accent-dark: #60a5fa;
       --background-dark: #0f172a;
       --text-dark: #e5e7eb;
       --card-dark: #1e293b;
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Poppins', sans-serif, Arial;
       background-color: var(--background-light);
       color: var(--text-light);
       transition: all 0.4s ease;
     }
-
     body.dark {
       background-color: var(--background-dark);
       color: var(--text-dark);
     }
-
     header {
       background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
       color: white;
@@ -75,25 +70,20 @@
       position: relative;
       overflow: hidden;
     }
-
     body.dark header {
       background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-dark) 100%);
     }
-
     header h1 {
       font-size: 2.5rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      letter-spacing: -0.025em;
     }
-
     header p {
       font-size: 1.1rem;
       opacity: 0.9;
       max-width: 600px;
       margin: 0 auto;
     }
-
     .toggle-container {
       position: absolute;
       top: 1rem;
@@ -102,7 +92,6 @@
       align-items: center;
       gap: 0.5rem;
     }
-
     .toggle-container label {
       cursor: pointer;
       font-size: 0.9rem;
@@ -111,11 +100,9 @@
       align-items: center;
       gap: 0.3rem;
     }
-
     #darkToggle {
       display: none;
     }
-
     .toggle-switch {
       width: 40px;
       height: 20px;
@@ -124,7 +111,6 @@
       position: relative;
       transition: background 0.3s;
     }
-
     .toggle-switch::before {
       content: '';
       width: 16px;
@@ -136,32 +122,79 @@
       left: 2px;
       transition: transform 0.3s;
     }
-
     #darkToggle:checked + .toggle-switch {
       background: var(--accent-light);
     }
-
     body.dark #darkToggle:checked + .toggle-switch {
       background: var(--accent-dark);
     }
-
     #darkToggle:checked + .toggle-switch::before {
       transform: translateX(20px);
     }
-
+    .menu-icon {
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .menu-icon {
+        display: block;
+      }
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: var(--card-light);
+      padding: 1rem;
+      transition: left 0.3s;
+      z-index: 1000;
+    }
+    body.dark .sidebar {
+      background: var(--card-dark);
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar li {
+      padding: 0.5rem 0;
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    body.dark .sidebar a {
+      color: var(--text-dark);
+    }
+    .category-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    .sidebar.active {
+      left: 0;
+    }
     main {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
-
     .tool-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
       margin-top: 2rem;
     }
-
     .tool-card {
       background-color: var(--card-light);
       padding: 2rem;
@@ -169,55 +202,31 @@
       text-align: center;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
     }
-
     body.dark .tool-card {
       background-color: var(--card-dark);
       box-shadow: 0 4px 20px rgba(255,255,255,0.05);
     }
-
     .tool-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 6px 25px rgba(0,0,0,0.15);
     }
-
     body.dark .tool-card:hover {
       box-shadow: 0 6px 25px rgba(255,255,255,0.1);
     }
-
-    .tool-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-light), transparent);
-      opacity: 0.7;
-    }
-
-    body.dark .tool-card::before {
-      background: linear-gradient(90deg, var(--accent-dark), transparent);
-    }
-
     .tool-card h3 {
       font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 0.75rem;
     }
-
     .tool-card p {
       font-size: 0.95rem;
       color: #6b7280;
       margin-bottom: 1rem;
     }
-
     body.dark .tool-card p {
       color: #9ca3af;
     }
-
     .tool-card a {
       display: inline-block;
       text-decoration: none;
@@ -228,20 +237,16 @@
       font-weight: 500;
       transition: background 0.3s, transform 0.2s;
     }
-
     body.dark .tool-card a {
       background: var(--accent-dark);
     }
-
     .tool-card a:hover {
       background: var(--primary-light);
       transform: scale(1.05);
     }
-
     body.dark .tool-card a:hover {
       background: var(--primary-dark);
     }
-
     footer {
       margin-top: 3rem;
       padding: 2rem 1rem;
@@ -249,50 +254,41 @@
       background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
       color: white;
     }
-
     body.dark footer {
       background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-dark) 100%);
     }
-
     footer h4 {
       font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 0.75rem;
     }
-
     footer p {
       font-size: 0.95rem;
       max-width: 600px;
       margin: 0 auto 1rem;
       opacity: 0.9;
     }
-
     .contact a {
       color: #bfdbfe;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s;
     }
-
     .contact a:hover {
       color: white;
       text-decoration: underline;
     }
-
     @media (min-width: 768px) {
       header h1 {
         font-size: 3rem;
       }
-
       header p {
         font-size: 1.25rem;
       }
-
       .tool-card {
         padding: 2.5rem;
       }
     }
-
     @media (min-width: 1024px) {
       .tool-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -302,6 +298,7 @@
 </head>
 <body>
   <header>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
     <h1>MyChoose Tools</h1>
     <p>Free, Fast, and Secure Online Image to PDF & PNG to JPG Tools</p>
     <div class="toggle-container">
@@ -312,6 +309,36 @@
       </label>
     </div>
   </header>
+
+  <nav id="sidebar" class="sidebar">
+    <ul>
+      <li><span class="category-dot" style="background: #ff4444"></span> Image Tools</li>
+      <li><a href="image-to-pdf/index.html">Image to PDF</a></li>
+      <li><a href="png-to-jpg/index.html">PNG to JPG</a></li>
+      <li><a href="#">Image Resizer</a></li>
+      <li><a href="#">JPG to PNG</a></li>
+      <li><a href="#">Image Compressor</a></li>
+      <li><a href="#">Image Cropper</a></li>
+      <li><a href="#">Image Rotator</a></li>
+      <li><a href="#">Image Watermark</a></li>
+      <li><a href="#">Image Enhancer</a></li>
+      <li><span class="category-dot" style="background: #3b82f6"></span> PDF Tools</li>
+      <li><a href="#">Merge PDF</a></li>
+      <li><a href="#">Split PDF</a></li>
+      <li><a href="#">PDF to Word</a></li>
+      <li><a href="#">PDF to Excel</a></li>
+      <li><a href="#">PDF Compressor</a></li>
+      <li><a href="#">PDF Editor</a></li>
+      <li><a href="#">PDF to JPG</a></li>
+      <li><a href="#">PDF to Text</a></li>
+      <li><span class="category-dot" style="background: #ffaa00"></span> Other Tools</li>
+      <li><a href="#">Video Converter</a></li>
+      <li><a href="#">Audio Converter</a></li>
+      <li><a href="#">File Compressor</a></li>
+      <li><a href="#">File Splitter</a></li>
+      <li><a href="#">Document Scanner</a></li>
+    </ul>
+  </nav>
 
   <main>
     <section class="tool-grid">
@@ -327,13 +354,14 @@
       </div>
     </section>
 
-    <footer>
-      <h4>About MyChoose</h4>
+    <section class="about-section">
+      <h2>About MyChoose</h2>
       <p>MyChoose offers free tools for image to PDF and PNG to JPG conversion. Fast, secure, and easy to use.</p>
+    </section>
 
+    <footer>
       <h4>Support & Contact</h4>
       <p class="contact">Need help? Reach out at <a href="mailto:mychoosesupport@gmail.com">mychoosesupport@gmail.com</a></p>
-
       <p>© 2025 MyChoose. All rights reserved.</p>
     </footer>
   </main>
@@ -342,6 +370,10 @@
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
       localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+    }
+
+    function toggleMenu() {
+      document.getElementById('sidebar').classList.toggle('active');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
