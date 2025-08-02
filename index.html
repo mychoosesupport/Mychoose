@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MyChoose Tools - Free Image to PDF & PNG to JPG Converter</title>
-  <meta name="description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools with 20+ features.">
-  <meta name="keywords" content="free image to PDF, PNG to JPG, online converter, PDF tools, image converter, image resizer, PDF merger, video converter">
+  <meta name="description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools with 40+ features.">
+  <meta name="keywords" content="free image to PDF, PNG to JPG, online converter, PDF tools, image converter, image resizer, PDF merger, video converter, audio converter">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://mychoose.online/">
   <!-- Open Graph Tags -->
   <meta property="og:title" content="MyChoose Tools - Free Image to PDF & PNG to JPG Converter">
-  <meta property="og:description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools with 20+ features.">
+  <meta property="og:description" content="Convert images to PDF or PNG to JPG for free with MyChoose Tools. Fast, secure, and easy online tools with 40+ features.">
   <meta property="og:image" content="https://mychoose.online/og-image.jpg">
   <meta property="og:url" content="https://mychoose.online">
   <meta name="twitter:card" content="summary_large_image">
@@ -21,7 +21,7 @@
     "@type": "WebSite",
     "name": "MyChoose Tools",
     "url": "https://mychoose.online",
-    "description": "Free online tools for image to PDF, PNG to JPG, and 20+ conversion features"
+    "description": "Free online tools for image to PDF, PNG to JPG, and 40+ conversion features"
   }
   </script>
   <!-- Google Analytics (Replace UA-XXXXX-Y with your ID) -->
@@ -133,12 +133,17 @@
       transform: translateX(18px);
     }
     .menu-icon {
-      font-size: 1.5rem;
+      font-size: 2rem;
       cursor: pointer;
       position: absolute;
       top: 0.5rem;
       left: 1rem;
       z-index: 1001;
+      transition: transform 0.3s;
+    }
+    .menu-icon:hover {
+      transform: scale(1.2);
+      color: var(--accent-light);
     }
     .sidebar {
       position: fixed;
@@ -146,37 +151,45 @@
       left: -250px;
       width: 250px;
       height: 100%;
-      background: var(--card-light);
-      padding: 1rem;
-      transition: left 0.3s;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 80%);
+      padding: 1.5rem;
+      transition: left 0.3s ease-in-out;
       z-index: 1000;
       overflow-y: auto;
+      border-right: 2px solid var(--accent-light);
     }
     body.dark .sidebar {
-      background: var(--card-dark);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-dark) 80%);
+      border-right: 2px solid var(--accent-dark);
     }
     .sidebar ul {
       list-style: none;
       padding: 0;
     }
     .sidebar li {
-      padding: 0.5rem 0;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .sidebar a {
       text-decoration: none;
-      color: var(--text-light);
+      color: white;
       font-weight: 500;
+      transition: color 0.3s;
     }
-    body.dark .sidebar a {
-      color: var(--text-dark);
+    .sidebar a:hover {
+      color: var(--accent-light);
+    }
+    body.dark .sidebar a:hover {
+      color: var(--accent-dark);
     }
     .category-dot {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      margin-right: 0.5rem;
+      margin-right: 0.7rem;
       vertical-align: middle;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     }
     .sidebar.active {
       left: 0;
@@ -322,10 +335,10 @@
         grid-template-columns: repeat(3, 1fr);
       }
       .menu-icon {
-        display: none; /* Hide on large screens if not needed */
+        display: block; /* Show on all screens */
       }
       .sidebar {
-        display: none; /* Hide sidebar on large screens, use dropdown if needed */
+        display: none; /* Hide by default, toggle manually */
       }
     }
   </style>
@@ -349,13 +362,16 @@
       <li><span class="category-dot" style="background: #ff4444"></span> Image Tools</li>
       <li><a href="image-to-pdf/index.html">Image to PDF</a></li>
       <li><a href="png-to-jpg/index.html">PNG to JPG</a></li>
-      <li><a href="#">Image Resizer</a></li>
+      <li><a href="https://github.com/yourusername/image-resizer">Image Resizer</a></li>
       <li><a href="#">JPG to PNG</a></li>
       <li><a href="#">Image Compressor</a></li>
       <li><a href="#">Image Cropper</a></li>
       <li><a href="#">Image Rotator</a></li>
       <li><a href="#">Image Watermark</a></li>
       <li><a href="#">Image Enhancer</a></li>
+      <li><a href="#">Image Filter</a></li>
+      <li><a href="#">Image Splitter</a></li>
+      <li><a href="#">Image Merger</a></li>
       <li><span class="category-dot" style="background: #3b82f6"></span> PDF Tools</li>
       <li><a href="#">Merge PDF</a></li>
       <li><a href="#">Split PDF</a></li>
@@ -365,12 +381,29 @@
       <li><a href="#">PDF Editor</a></li>
       <li><a href="#">PDF to JPG</a></li>
       <li><a href="#">PDF to Text</a></li>
-      <li><span class="category-dot" style="background: #ffaa00"></span> Other Tools</li>
+      <li><a href="#">PDF to PPT</a></li>
+      <li><a href="#">PDF Annotator</a></li>
+      <li><a href="#">PDF Password Remover</a></li>
+      <li><a href="#">PDF Signer</a></li>
+      <li><span class="category-dot" style="background: #ffaa00"></span> Video Tools</li>
       <li><a href="#">Video Converter</a></li>
+      <li><a href="#">Video Compressor</a></li>
+      <li><a href="#">Video Cutter</a></li>
+      <li><a href="#">Video Merger</a></li>
+      <li><a href="#">Video to GIF</a></li>
+      <li><span class="category-dot" style="background: #00ff00"></span> Audio Tools</li>
       <li><a href="#">Audio Converter</a></li>
+      <li><a href="#">Audio Cutter</a></li>
+      <li><a href="#">Audio Merger</a></li>
+      <li><a href="#">Audio Enhancer</a></li>
+      <li><span class="category-dot" style="background: #ff00ff"></span> Other Tools</li>
       <li><a href="#">File Compressor</a></li>
       <li><a href="#">File Splitter</a></li>
       <li><a href="#">Document Scanner</a></li>
+      <li><a href="#">Text to Speech</a></li>
+      <li><a href="#">Speech to Text</a></li>
+      <li><a href="#">QR Code Generator</a></li>
+      <li><a href="#">Barcode Scanner</a></li>
     </ul>
   </nav>
 
@@ -386,11 +419,16 @@
         <p>Transform PNG images to JPG for free with high quality.</p>
         <a href="png-to-jpg/index.html">Use Tool</a>
       </div>
+      <div class="tool-card">
+        <h3>Image Resizer</h3>
+        <p>Resize your images easily with our free tool.</p>
+        <a href="https://github.com/yourusername/image-resizer">Use Tool</a>
+      </div>
     </section>
 
     <section class="about-section">
       <h2>About MyChoose</h2>
-      <p>MyChoose offers free tools for image to PDF and PNG to JPG conversion. Fast, secure, and easy to use with 20+ features.</p>
+      <p>MyChoose offers free tools for image to PDF, PNG to JPG, and 40+ conversion features. Fast, secure, and easy to use.</p>
     </section>
 
     <footer>
@@ -410,13 +448,12 @@
       const sidebar = document.getElementById('sidebar');
       sidebar.classList.toggle('active');
       if (sidebar.classList.contains('active')) {
-        document.body.style.overflow = 'hidden'; // Prevent background scroll
+        document.body.style.overflow = 'hidden';
       } else {
-        document.body.style.overflow = 'auto'; // Restore scroll
+        document.body.style.overflow = 'auto';
       }
     }
 
-    // Close sidebar when clicking outside
     document.addEventListener('click', function(event) {
       const sidebar = document.getElementById('sidebar');
       const menuIcon = document.querySelector('.menu-icon');
@@ -426,7 +463,6 @@
       }
     });
 
-    // Handle back button
     window.addEventListener('popstate', function() {
       const sidebar = document.getElementById('sidebar');
       if (sidebar.classList.contains('active')) {
@@ -443,4 +479,4 @@
     });
   </script>
 </body>
-</html>
+            </html>
