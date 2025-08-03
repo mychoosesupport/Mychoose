@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert PDF to Word online for free with OCR, batch processing, and page selection. Secure, fast, and easy-to-use PDF to DOCX converter.">
+    <meta name="keywords" content="PDF to Word, PDF to DOCX, OCR PDF converter, batch PDF conversion, free PDF converter, secure PDF to Word">
+    <meta name="author" content="Your Name">
+    <meta name="robots" content="index, follow">
+    <meta name="og:title" content="PDF to Word Converter - Free & Secure">
+    <meta name="og:description" content="Easily convert PDF to Word (DOCX) with OCR, batch processing, and page selection. Secure and user-friendly.">
+    <meta name="og:type" content="website">
+    <meta name="og:url" content="http://yourwebsite.com">
+    <title>PDF to Word Converter - Free, Secure, and Fast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.light {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        body.dark {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .container.light {
+            background: #fff;
+        }
+        .container.dark {
+            background: #2c2c2c;
+        }
+        .drop-zone {
+            border: 2px dashed #007bff;
+            padding: 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .drop-zone.light {
+            background: #fff;
+        }
+        .drop-zone.dark {
+            background: #3a3a3a;
+        }
+        .drop-zone.dragover {
+            background: #e1f0ff;
+        }
+        .drop-zone.dragover.dark {
+            background: #4a4a4a;
+        }
+        .options {
+            margin: 20px 0;
+            text-align: left;
+        }
+        .options label {
+            margin-right: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #6699cc;
+            cursor: not-allowed;
+        }
+        #theme-toggle {
+            background: #007bff;
+            margin-bottom: 20px;
+        }
+        #theme-toggle:hover {
+            background: #0056b3;
+        }
+        #status { margin-top: 20px; color: #28a745; }
+        #error { color: #dc3545; }
+        input[type="number"] {
+            width: 80px;
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+        }
+        input[type="number"].dark {
+            background: #3a3a3a;
+            color: #e0e0e0;
+            border: 1px solid #4a90e2;
+        }
+        h1 {
+            color: #007bff;
+        }
+        h1.dark {
+            color: #4a90e2;
+        }
+    </style>
+</head>
+<body class="light">
+    <div class="container light">
+        <h1 class="light">PDF to Word Converter</h1>
+        <button id="theme-toggle">Switch to Dark Mode</button>
+        <form id="upload-form" enctype="multipart/form-data" aria-label="PDF to Word Conversion Form">
+            <div class="drop-zone light" id="drop-zone">
+                Drag and drop PDFs here or click to upload
+                <input type="file" name="files" id="file-input" multiple accept=".pdf" style="display: none;" aria-label="Upload PDF files">
+            </div>
+            <div class="options">
+                <label><input type="checkbox" name="use_ocr" aria-label="Enable OCR for scanned PDFs"> Enable OCR (for scanned PDFs)</label><br>
+                <label>Start Page: <input type="number" name="start_page" min="1" placeholder="Optional" aria-label="Start page number"></label>
+                <label>End Page: <input type="number" name="end_page" min="1" placeholder="Optional" aria-label="End page number"></label>
+            </div>
+            <button type="submit" id="convert-btn" aria-label="Convert PDF to Word">Convert to Word</button>
+        </form>
+        <div id="status" role="status"></div>
+        <div id="error" role="alert"></div>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        const body = document.body;
+        const container = document.querySelector(".container");
+        const dropZone = document.querySelector(".drop-zone");
+        const h1 = document.querySelector("h1");
+        const inputs = document.querySelectorAll("input[type='number']");
+        const themeToggle = document.getElementById("theme-toggle");
+        const currentTheme = localStorage.getItem("theme") || "light";
+
+        function setTheme(theme) {
+            body.className = theme;
+            container.className = `container ${theme}`;
+            dropZone.className = `drop-zone ${theme}`;
+            h1.className = theme;
+            inputs.forEach(input => input.className = theme);
+            themeToggle.textContent = theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode";
+            localStorage.setItem("theme", theme);
+        }
+
+        setTheme(currentTheme);
+
+        themeToggle.addEventListener("click", () => {
+            const newTheme = body.classList.contains("light") ? "dark" : "light";
+            setTheme(newTheme);
+        });
+
+        // Form handling
+        const fileInput = document.getElementById("file-input");
+        const form = document.getElementById("upload-form");
+        const convertBtn = document.getElementById("convert-btn");
+        const statusDiv = document.getElementById("status");
+        const errorDiv = document.getElementById("error");
+
+        dropZone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropZone.classList.add("dragover");
+        });
+
+        dropZone.addEventListener("dragleave", () => {
+            dropZone.classList.remove("dragover");
+        });
+
+        dropZone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dropZone.classList.remove("dragover");
+            fileInput.files = e.dataTransfer.files;
+            dropZone.textContent = `${fileInput.files.length} file(s) selected`;
+        });
+
+        dropZone.addEventListener("click", () => fileInput.click());
+
+        fileInput.addEventListener("change", () => {
+            dropZone.textContent = `${fileInput.files.length} file(s) selected`;
+        });
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if (!fileInput.files.length) {
+                errorDiv.textContent = "Please select at least one PDF file.";
+                return;
+            }
+            convertBtn.disabled = true;
+            statusDiv.textContent = "Converting...";
+            errorDiv.textContent = "";
+            const formData = new FormData(form);
+            try {
+                const response = await fetch("/", {
+                    method: "POST",
+                    body: formData,
+                });
+                if (response.ok && response.headers.get("content-type").includes("application/octet-stream")) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = response.headers.get("content-disposition")?.split("filename=")[1] || "converted.docx";
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    statusDiv.textContent = "Conversion complete! File(s) downloaded.";
+                } else {
+                    const data = await response.json();
+                    errorDiv.textContent = data.error || JSON.stringify(data.results);
+                    statusDiv.textContent = "";
+                }
+            } catch (err) {
+                errorDiv.textContent = "Error: " + err.message;
+                statusDiv.textContent = "";
+            } finally {
+                convertBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
