@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyChoose Tools - Free Image to PDF, PNG to JPG & Merge PDF</title>
+  <meta name="description" content="Convert images to PDF or PNG to JPG for free, and merge PDF files with MyChoose Tools. Fast, secure, and advanced online tools with 40+ features.">
+  <meta name="keywords" content="free image to PDF, PNG to JPG, merge PDF, online converter, PDF tools, image converter, image resizer, PDF merger, video converter, audio converter">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.mychoose.online/">
+  <meta property="og:title" content="MyChoose Tools - Free Image to PDF, PNG to JPG & Merge PDF">
+  <meta property="og:description" content="Convert images to PDF or PNG to JPG, and merge PDFs for free with MyChoose Tools. Fast, secure, and advanced online tools with 40+ features.">
+  <meta property="og:image" content="https://www.mychoose.online/og-image.jpg">
+  <meta property="og:url" content="https://www.mychoose.online">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MyChoose Tools",
+    "url": "https://www.mychoose.online",
+    "description": "Free online tools for image to PDF, PNG to JPG, PDF merging, and 40+ conversion features"
+  }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXX-Y');
+  </script>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary-blue: #1e3a8a;
+      --accent-blue: #3b82f6;
+      --background-light: #f1f5f9;
+      --text-light: #111827;
+      --card-light: #ffffff;
+      --background-dark: #1a202c;
+      --text-dark: #e2e8f0;
+      --card-dark: #2d3748;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-light);
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      overflow-x: hidden;
+    }
+    body.dark {
+      background-color: var(--background-dark);
+      color: var(--text-dark);
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+    }
+    body.dark header {
+      background: linear-gradient(135deg, #152e6f 0%, #2a69ac 100%);
+    }
+    .toggle-btn {
+      padding: 8px 16px;
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+    body.dark .toggle-btn {
+      background: var(--primary-blue);
+    }
+    .toggle-btn:hover {
+      opacity: 0.9;
+    }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin: 1rem auto;
+      max-width: 1200px;
+      padding: 1rem;
+    }
+    .tool-card {
+      background-color: var(--card-light);
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    body.dark .tool-card {
+      background-color: var(--card-dark);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .tool-card:hover {
+      transform: translateY(-5px);
+    }
+    .tool-card a {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background: var(--accent-blue);
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    body.dark .tool-card a {
+      background: var(--primary-blue);
+    }
+    .tool-card a:hover {
+      opacity: 0.9;
+    }
+    .merge-section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background-color: var(--card-light);
+      display: none;
+    }
+    body.dark .merge-section {
+      background-color: var(--card-dark);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .merge-section.active {
+      display: block;
+    }
+    .drop-zone {
+      border: 2px dashed var(--accent-blue);
+      padding: 30px;
+      margin: 20px 0;
+      cursor: pointer;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    body.dark .drop-zone {
+      border-color: var(--primary-blue);
+    }
+    .drop-zone.dragover {
+      background: #e6f0fa;
+    }
+    body.dark .drop-zone.dragover {
+      background: #2a3b5c;
+    }
+    .file-list {
+      margin: 20px 0;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #f1f5f9;
+      margin-bottom: 5px;
+      border-radius: 5px;
+    }
+    body.dark .file-item {
+      background: #2d3748;
+    }
+    .file-item .move-btn {
+      margin: 0 5px;
+      padding: 5px 10px;
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    body.dark .file-item .move-btn {
+      background: var(--primary-blue);
+    }
+    .options label {
+      display: block;
+      margin: 10px 0;
+      color: var(--text-light);
+    }
+    body.dark .options label {
+      color: var(--text-dark);
+    }
+    button {
+      padding: 12px 24px;
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    body.dark button {
+      background: var(--primary-blue);
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    button:disabled {
+      background: #a3bffa;
+      cursor: not-allowed;
+    }
+    body.dark button:disabled {
+      background: #4a5e9a;
+    }
+    #status { margin-top: 20px; color: #2ecc71; font-weight: 500; }
+    #error { color: #e74c3c; font-weight: 500; }
+    @media (min-width: 768px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr); }
+      .merge-section { padding: 30px; }
+    }
+    @media (min-width: 1024px) {
+      .tool-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MyChoose Tools</h1>
+    <p>Free, Fast, and Secure Online Image to PDF, PNG to JPG & More</p>
+    <button id="theme-toggle" class="toggle-btn">Switch to Dark Mode</button>
+  </header>
+  <main>
+    <section class="tool-grid">
+      <div class="tool-card">
+        <h3>Image to PDF</h3>
+        <p>Convert JPG/PNG images to PDF for free in seconds.</p>
+        <a href="#image-to-pdf">Use Tool</a>
+      </div>
+      <div class="tool-card">
+        <h3>PNG to JPG</h3>
+        <p>Transform PNG images to JPG for free with high quality.</p>
+        <a href="#png-to-jpg">Use Tool</a>
+      </div>
+      <div class="tool-card">
+        <h3>Image Resizer</h3>
+        <p>Resize your images easily with our free tool.</p>
+        <a href="#image-resizer">Use Tool</a>
+      </div>
+      <div class="tool-card">
+        <h3>PDF to Word</h3>
+        <p>Convert PDF to Word (DOCX) with OCR and batch processing.</p>
+        <a href="#pdf-to-word">Use Tool</a>
+      </div>
+      <div class="tool-card">
+        <h3>Merge PDF</h3>
+        <p>Combine multiple PDF files into one with advanced options.</p>
+        <a href="#merge-pdf">Use Tool</a>
+      </div>
+    </section>
+
+    <!-- Merge PDF Tool Section -->
+    <section class="merge-section" id="merge-pdf">
+      <h2>Merge PDF</h2>
+      <div class="drop-zone" id="drop-zone">
+        Drag and drop PDF files here or click to upload
+        <input type="file" name="files" id="file-input" multiple accept=".pdf" style="display: none;" aria-label="Upload PDF files">
+      </div>
+      <div class="file-list" id="file-list"></div>
+      <div class="options">
+        <label><input type="checkbox" id="sort-asc" aria-label="Sort files alphabetically"> Sort files alphabetically</label>
+        <label><input type="checkbox" id="reverse-order" aria-label="Reverse file order"> Reverse file order</label>
+      </div>
+      <button type="button" id="merge-btn" disabled aria-label="Merge PDF files">Merge PDFs</button>
+      <div id="status" role="status"></div>
+      <div id="error" role="alert"></div>
+    </section>
+  </main>
+
+  <script>
+    const body = document.body;
+    const themeToggle = document.getElementById("theme-toggle");
+    const dropZone = document.getElementById("drop-zone");
+    const fileInput = document.getElementById("file-input");
+    const fileList = document.getElementById("file-list");
+    const mergeBtn = document.getElementById("merge-btn");
+    const statusDiv = document.getElementById("status");
+    const errorDiv = document.getElementById("error");
+    const sortAsc = document.getElementById("sort-asc");
+    const reverseOrder = document.getElementById("reverse-order");
+
+    // Dark Mode Toggle
+    function setTheme(theme) {
+      body.className = theme;
+      themeToggle.textContent = theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode";
+      localStorage.setItem("theme", theme);
+    }
+    const currentTheme = localStorage.getItem("theme") || "light";
+    setTheme(currentTheme);
+    themeToggle.addEventListener("click", () => {
+      const newTheme = body.classList.contains("light") ? "dark" : "light";
+      setTheme(newTheme);
+    });
+
+    // Drag and Drop
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+      fileInput.files = e.dataTransfer.files;
+      renderFileList();
+    });
+    dropZone.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", renderFileList);
+
+    // File List and Sorting
+    function renderFileList() {
+      if (!fileInput.files.length) {
+        fileList.innerHTML = "";
+        dropZone.textContent = "Drag and drop PDF files here or click to upload";
+        mergeBtn.disabled = true;
+        return;
+      }
+      const files = Array.from(fileInput.files);
+      if (sortAsc.checked) files.sort((a, b) => a.name.localeCompare(b.name));
+      if (reverseOrder.checked) files.reverse();
+      fileList.innerHTML = files.map((file, index) => `
+        <div class="file-item">
+          ${file.name}
+          <button class="move-btn" onclick="moveFile(${index}, -1)">↑</button>
+          <button class="move-btn" onclick="moveFile(${index}, 1)">↓</button>
+        </div>
+      `).join("");
+      dropZone.textContent = `${files.length} PDF(s) selected`;
+      mergeBtn.disabled = false;
+    }
+
+    function moveFile(index, direction) {
+      const files = Array.from(fileInput.files);
+      const newIndex = index + direction;
+      if (newIndex >= 0 && newIndex < files.length) {
+        [files[index], files[newIndex]] = [files[newIndex], files[index]];
+        const dataTransfer = new DataTransfer();
+        files.forEach(file => dataTransfer.items.add(file));
+        fileInput.files = dataTransfer.files;
+        renderFileList();
+      }
+    }
+
+    // Merge Function (Frontend Placeholder)
+    mergeBtn.addEventListener("click", async () => {
+      if (!fileInput.files.length) {
+        errorDiv.textContent = "Please select at least one PDF file.";
+        return;
+      }
+      mergeBtn.disabled = true;
+      statusDiv.textContent = "Merging...";
+      errorDiv.textContent = "";
+      const formData = new FormData();
+      Array.from(fileInput.files).forEach(file => formData.append("files", file));
+      try {
+        const response = await fetch("/", {
+          method: "POST",
+          body: formData,
+        });
+        if (response.ok && response.headers.get("content-type").includes("application/pdf")) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "merged.pdf";
+          a.click();
+          window.URL.revokeObjectURL(url);
+          statusDiv.textContent = "Merge complete! File downloaded.";
+        } else {
+          const data = await response.json();
+          errorDiv.textContent = data.error || "Failed to merge PDFs.";
+          statusDiv.textContent = "";
+        }
+      } catch (err) {
+        errorDiv.textContent = "Error: " + err.message;
+        statusDiv.textContent = "";
+      } finally {
+        mergeBtn.disabled = false;
+      }
+    });
+
+    // Re-render on option change
+    [sortAsc, reverseOrder].forEach(input => input.addEventListener("change", renderFileList));
+  </script>
+</body>
+</html>
