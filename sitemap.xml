@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <!-- Homepage -->
   <url>
     <loc>https://mychoose.online/</loc>
@@ -17,4 +18,17 @@
     <loc>https://mychoose.online/png-to-jpg/</loc>
     <priority>0.9</priority>
   </url>
+
+  <!-- PDF to Word Tool -->
+  <url>
+    <loc>https://mychoose.online/pdf-to-word/</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Merge PDF Tool -->
+  <url>
+    <loc>https://mychoose.online/merge-pdf/</loc>
+    <priority>0.9</priority>
+  </url>
+
 </urlset>
