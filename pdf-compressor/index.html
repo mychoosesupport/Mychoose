@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PDF Compressor — Reduce PDF Size Online (Free & Secure)</title>
+  <meta name="description" content="Compress PDF files online for free. Fast, secure, no watermark. Easy drag & drop, realistic compression preview and immediate download." />
+  <meta name="keywords" content="compress pdf, pdf compressor, reduce pdf size, online pdf compressor, free pdf compressor" />
+  <meta name="author" content="MyChoose" />
+  <link rel="icon" href="favicon.png" />
+
+  <!-- Open Graph (social) -->
+  <meta property="og:title" content="PDF Compressor — Reduce PDF Size Online (Free & Secure)" />
+  <meta property="og:description" content="Compress PDF files quickly & securely. No signup, no watermark. Works on mobile & desktop." />
+  <meta property="og:image" content="og-image.png" />
+  <meta property="og:url" content="https://mychoose.online/pdf-compressor.html" />
+  <meta property="og:type" content="website" />
+
+  <!-- JSON-LD: WebApplication + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PDF Compressor",
+    "url": "https://mychoose.online/pdf-compressor.html",
+    "description": "Compress PDF files online quickly and securely. Free, no watermark.",
+    "applicationCategory": "Utilities"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is this PDF compressor free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — free for everyone. No signup required." } },
+      { "@type": "Question", "name": "Do you store my files?", "acceptedAnswer": { "@type": "Answer", "text": "No. Files are processed locally in your browser and not uploaded." } },
+      { "@type": "Question", "name": "Will there be a watermark?", "acceptedAnswer": { "@type": "Answer", "text": "No watermark — your compressed files are clean." } }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ---------------------------
+       Base + Typography
+       --------------------------- */
+    :root{
+      --blue-700: #0b63d8;
+      --blue-500: #1976d2;
+      --blue-300: #86bff7;
+      --bg: #f6fbff;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --success: #16a34a;
+      --danger: #ef4444;
+      --radius: 14px;
+      --glass: rgba(255,255,255,0.75);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      background:linear-gradient(180deg,var(--bg) 0%, #eaf4ff 100%);
+      color:#0f172a;
+      line-height:1.45;
+      padding:28px 16px;
+    }
+    .dark body{
+      background: linear-gradient(180deg,#071127 0%, #071a2f 100%);
+      color:#e6eef8;
+    }
+
+    /* ---------------------------
+       Container
+       --------------------------- */
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:54px;height:54px;border-radius:12px;
+      background:linear-gradient(135deg,var(--blue-700),var(--blue-300));
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(11,99,216,0.18);
+    }
+    .brand h1{font-size:20px;margin:0}
+    .brand p{margin:0;color:var(--muted);font-size:13px}
+
+    /* Dark mode toggle (fancy) */
+    .toggle {
+      width:56px;height:36px;border-radius:999px;background:#fff;padding:4px;display:inline-flex;align-items:center;cursor:pointer;
+      box-shadow:0 6px 18px rgba(11,99,216,0.12);
+    }
+    .toggle .knob {
+      width:28px;height:28px;border-radius:50%;background:linear-gradient(180deg,#ffd966,#ffc107);display:flex;align-items:center;justify-content:center;transition:all .35s ease;
+      transform:translateX(0);
+      font-size:14px;
+    }
+    .dark .toggle{background:#0b2a4a}
+    .dark .toggle .knob{transform:translateX(20px);background:linear-gradient(180deg,#a3d8ff,#4dabf7);color:#003566}
+
+    /* ---------------------------
+       Main card
+       --------------------------- */
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:26px;
+      box-shadow:0 10px 30px rgba(13,63,170,0.08);
+      border:1px solid rgba(11,99,216,0.06);
+    }
+    .dark .card{
+      background: rgba(9,18,33,0.6);
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 8px 28px rgba(3,10,24,0.6);
+    }
+
+    .hero{
+      display:flex;
+      gap:26px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    /* left: uploader */
+    .uploader{
+      flex:1 1 420px;
+      min-width:280px;
+    }
+    .upload-box{
+      border-radius:12px;
+      padding:30px;
+      border:2px dashed rgba(11,99,216,0.22);
+      background:linear-gradient(180deg, rgba(11,99,216,0.03), rgba(11,99,216,0.01));
+      text-align:center;
+      transition:all .22s ease;
+      cursor:pointer;
+    }
+    .upload-box:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(11,99,216,0.06)}
+    .upload-box.dragover{
+      border-color:var(--blue-700);
+      background:linear-gradient(180deg, rgba(11,99,216,0.06), rgba(11,99,216,0.02));
+      box-shadow:0 18px 60px rgba(11,99,216,0.12);
+    }
+    .upload-ico{
+      width:78px;height:78px;border-radius:18px;margin:0 auto;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#fff, #eef7ff);color:var(--blue-700);font-size:34px;box-shadow:0 8px 24px rgba(11,99,216,0.08);
+    }
+    .upload-box h2{font-size:18px;margin:12px 0 4px}
+    .upload-box p{color:var(--muted);font-size:14px;margin:0}
+    .small{font-size:13px;color:var(--muted);margin-top:8px}
+
+    /* file preview */
+    .file-preview{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .file-card{
+      background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 8px 24px rgba(2,6,23,0.04);border:1px solid rgba(11,99,216,0.04);
+      display:flex;gap:12px;align-items:center;
+    }
+    .file-card .ficon{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,var(--blue-700),var(--blue-300));display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    .file-meta{font-size:14px}
+    .file-meta b{display:block}
+
+    /* right: info column */
+    .info{
+      flex:0 1 300px;
+      min-width:250px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:stretch;
+    }
+
+    .progress-wrap{margin-top:10px}
+    .progress{
+      height:12px;border-radius:999px;background:linear-gradient(90deg,#e6f0ff,#f1f8ff);
+      overflow:hidden;border:1px solid rgba(11,99,216,0.06)
+    }
+    .progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--blue-700),#4dabf7);transition:width .35s ease}
+
+    .stat{
+      display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:linear-gradient(180deg,#f8fff9,#f2fff3);border:1px solid rgba(16,185,129,0.06)
+    }
+    .btn{
+      margin-top:14px;padding:12px 18px;background:linear-gradient(90deg,var(--blue-700),#0d47a1);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;
+      transition:transform .15s ease,box-shadow .15s;
+      box-shadow:0 10px 30px rgba(11,99,216,0.12)
+    }
+    .btn:active{transform:translateY(2px)}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* trust badges row */
+    .badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+    .badge{background:linear-gradient(180deg,#fff,#f7fbff);padding:8px 12px;border-radius:999px;border:1px solid rgba(11,99,216,0.06);font-weight:600;color:var(--blue-700)}
+
+    /* result card */
+    .result{
+      margin-top:18px;padding:16px;border-radius:12px;background:linear-gradient(180deg,#e8f7ff,#f1fbff);text-align:center;border:1px solid rgba(11,99,216,0.06)
+    }
+    .result strong{font-size:18px;color:var(--blue-700)}
+
+    /* footer & extras */
+    .meta-row{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap}
+    .share{display:flex;gap:10px;align-items:center}
+    .social-btn{width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid rgba(11,99,216,0.06);cursor:pointer}
+    .testimonial{margin-top:12px;padding:12px;border-radius:10px;background:#fff;box-shadow:0 8px 24px rgba(2,6,23,0.04);border:1px solid rgba(11,99,216,0.04)}
+
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:14px}
+    a.link{color:var(--blue-700);text-decoration:none;font-weight:600}
+
+    /* responsive */
+    @media (max-width:860px){
+      .hero{flex-direction:column-reverse}
+      .info{width:100%}
+      .uploader{width:100%}
+    }
+
+    /* dark tweaks */
+    .dark .upload-box{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+    .dark .file-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
+    .dark .stat{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+    .dark .result{background:linear-gradient(180deg,#062437,#052331);border:1px solid rgba(255,255,255,0.03)}
+    .dark .badge{background:linear-gradient(180deg,#071a2f,#08304e);color:#bfe1ff;border:1px solid rgba(255,255,255,0.03)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar" role="banner" aria-hidden="false">
+      <div class="brand" aria-label="MyChoose PDF Compressor">
+        <div class="logo" aria-hidden="true">MC</div>
+        <div>
+          <h1 style="margin:0;font-size:18px">PDF Compressor</h1>
+          <p style="margin:0;color:var(--muted);font-size:13px">Fast • Secure • No watermark</p>
+        </div>
+      </div>
+
+      <!-- Dark toggle -->
+      <div aria-hidden="false">
+        <div class="toggle" role="button" tabindex="0" aria-pressed="false" id="darkToggle" title="Toggle dark mode">
+          <div class="knob" id="knob">🌞</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" role="main" aria-labelledby="main-heading">
+      <div class="hero">
+        <!-- uploader -->
+        <div class="uploader">
+          <div id="uploadBox" class="upload-box" tabindex="0" aria-label="Drag and drop PDF or click to upload">
+            <div class="upload-ico" aria-hidden="true">📄</div>
+            <h2 id="main-heading" style="margin-top:12px">Drag & drop your PDF here</h2>
+            <p class="small">Or click to browse. Maximum file size: 200 MB (recommended).</p>
+            <input type="file" id="fileInput" accept="application/pdf" aria-label="Choose PDF file" style="display:none" />
+            <div id="hint" class="small" style="margin-top:10px;color:var(--muted)">We process files locally — nothing is uploaded.</div>
+
+            <div class="file-preview" id="filePreview" style="display:none">
+              <div class="file-card" role="status" aria-live="polite">
+                <div class="ficon">PDF</div>
+                <div class="file-meta">
+                  <b id="fileName">myfile.pdf</b>
+                  <span id="fileSize" class="muted">1.2 MB</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- badges -->
+          <div class="badges" aria-hidden="false" style="margin-top:12px">
+            <div class="badge">🔒 Secure</div>
+            <div class="badge">🎯 No Watermark</div>
+            <div class="badge">🆓 100% Free</div>
+            <div class="badge">⚡ Fast</div>
+          </div>
+
+          <!-- testimonials -->
+          <div class="testimonial" style="margin-top:14px">
+            <strong>“Crisp, fast, and trustworthy — perfect for sending large PDFs.”</strong>
+            <div class="muted" style="margin-top:6px">— Ananya R.</div>
+          </div>
+        </div>
+
+        <!-- info column -->
+        <div class="info" aria-hidden="false">
+          <div style="font-weight:700;color:var(--blue-700);font-size:16px">Quick Compression</div>
+
+          <div class="stat" role="status" aria-live="polite">
+            <div>
+              <div class="muted">Original Size</div>
+              <div id="statOriginal" style="font-weight:700">—</div>
+            </div>
+            <div>
+              <div class="muted">Compressed Size</div>
+              <div id="statCompressed" style="font-weight:700">—</div>
+            </div>
+          </div>
+
+          <div class="progress-wrap" aria-hidden="false" style="margin-top:12px">
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <i id="progressFill" style="width:0%"></i>
+            </div>
+          </div>
+
+          <button id="compressBtn" class="btn" style="display:none" aria-disabled="false">Compress Now</button>
+
+          <div id="resultBox" class="result" style="display:none" aria-live="polite">
+            <div style="font-size:16px;margin-bottom:8px">✅ <strong id="resultText">Compression Successful</strong></div>
+            <div style="color:var(--muted);font-size:13px">Your file will be available to download. Files auto-delete from your device memory when you refresh or close the page.</div>
+            <div style="margin-top:12px"><button id="downloadBtn" class="btn" style="background:linear-gradient(90deg,#10b981,#059669)">Download Compressed PDF</button></div>
+          </div>
+
+          <div class="meta-row" style="margin-top:14px">
+            <div class="muted" style="font-size:13px">Share:</div>
+            <div class="share">
+              <div class="social-btn" id="wa" title="Share on WhatsApp">🟢</div>
+              <div class="social-btn" id="fb" title="Share on Facebook">🔵</div>
+              <div class="social-btn" id="tw" title="Share on Twitter">🐦</div>
+            </div>
+          </div>
+
+          <div style="margin-top:8px" class="muted">Tip: Compress to reduce size before emailing or uploading.</div>
+        </div>
+      </div> <!-- hero -->
+    </div> <!-- card -->
+
+    <!-- FAQ & SEO text -->
+    <div style="margin-top:20px" class="card">
+      <div style="display:flex;gap:20px;flex-direction:column">
+        <div>
+          <h3 style="margin:0;color:var(--blue-700)">Why choose our compressor?</h3>
+          <p class="muted" style="margin-top:8px">We built this tool to be simple, private and reliable. It runs inside your browser so your files stay local. No watermarks, no account, free to use.</p>
+        </div>
+
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <div style="min-width:200px">
+            <h4 style="margin:0">Frequently Asked</h4>
+            <div style="margin-top:8px" class="faq">
+              <dl>
+                <dt style="font-weight:700">Is it free?</dt>
+                <dd class="muted">Yes — free and unlimited for now.</dd>
+                <dt style="font-weight:700;margin-top:8px">Are files uploaded?</dt>
+                <dd class="muted">No — everything is processed locally in your browser.</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div style="min-width:200px">
+            <h4 style="margin:0">Trust & Privacy</h4>
+            <p class="muted" style="margin-top:8px">Files are handled locally and not sent to any server. We recommend closing the tab to fully clear file data.</p>
+            <p class="muted" style="margin-top:8px"><strong>Policy:</strong> Files removed from memory after browser close.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div style="margin-top:20px">© 2025 MyChoose — <a class="link" href="/">Home</a> • <a class="link" href="#">Privacy</a> • <a class="link" href="#">Contact</a></div>
+    </footer>
+  </div>
+
+  <!-- JS: uploader, drag/drop, compression (simulated), UI interactions -->
+  <script>
+    // Elements
+    const uploadBox = document.getElementById('uploadBox');
+    const fileInput = document.getElementById('fileInput');
+    const filePreview = document.getElementById('filePreview');
+    const fileNameEl = document.getElementById('fileName');
+    const fileSizeEl = document.getElementById('fileSize');
+    const compressBtn = document.getElementById('compressBtn');
+    const progressFill = document.getElementById('progressFill');
+    const statOriginal = document.getElementById('statOriginal');
+    const statCompressed = document.getElementById('statCompressed');
+    const resultBox = document.getElementById('resultBox');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const darkToggle = document.getElementById('darkToggle');
+    const knob = document.getElementById('knob');
+
+    let currentFile = null;
+    let simulatedCompressedSizeKB = 0;
+
+    // helper: format KB/MB
+    function formatBytes(bytes){
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+      return (bytes/(1024*1024)).toFixed(2) + ' MB';
+    }
+
+    // open file picker on click
+    uploadBox.addEventListener('click', ()=> fileInput.click());
+
+    // drag & drop visuals
+    ['dragenter','dragover'].forEach(evt=>{
+      uploadBox.addEventListener(evt, (e)=>{
+        e.preventDefault(); e.stopPropagation();
+        uploadBox.classList.add('dragover');
+      });
+    });
+    ['dragleave','dragend','drop'].forEach(evt=>{
+      uploadBox.addEventListener(evt, (e)=>{
+        e.preventDefault(); e.stopPropagation();
+        if(evt === 'drop') {
+          const dt = e.dataTransfer;
+          if (dt && dt.files && dt.files.length) handleRawFile(dt.files[0]);
+        }
+        // small timeout to allow UI to clear nicely
+        setTimeout(()=>uploadBox.classList.remove('dragover'), 60);
+      });
+    });
+
+    // handle file input change
+    fileInput.addEventListener('change', (e)=>{
+      if (e.target.files && e.target.files.length) handleRawFile(e.target.files[0]);
+    });
+
+    // handle raw file
+    function handleRawFile(file){
+      // validate PDF
+      if (!file || file.type !== 'application/pdf') {
+        alert('Please choose a valid PDF file.');
+        return;
+      }
+
+      currentFile = file;
+      const sizeKB = (file.size / 1024);
+      // show preview
+      filePreview.style.display = 'flex';
+      fileNameEl.textContent = file.name;
+      fileSizeEl.textContent = formatBytes(file.size);
+
+      // set stats
+      statOriginal.textContent = formatBytes(file.size);
+      // simulate compressed size (randomized but realistic based on file size)
+      const ratio = getSimulatedRatio(file.size);
+      simulatedCompressedSizeKB = Math.max(10, Math.round((file.size / 1024) * ratio));
+      statCompressed.textContent = formatBytes(Math.round(simulatedCompressedSizeKB * 1024));
+
+      // reset progress
+      progressFill.style.width = '0%';
+      resultBox.style.display = 'none';
+      compressBtn.style.display = 'block';
+      compressBtn.disabled = false;
+    }
+
+    // simulate ratio logic: bigger files compress better
+    function getSimulatedRatio(bytes){
+      const mb = bytes / (1024*1024);
+      if (mb < 0.5) return 0.85;    // small files compress little
+      if (mb < 2)   return 0.6;     // typical
+      if (mb < 10)  return 0.45;    // big file -> better compression
+      return 0.35;                  // huge files compress more
+    }
+
+    // compress button click -> simulate compression progress then "download"
+    compressBtn.addEventListener('click', async ()=>{
+      if (!currentFile) { alert('No file selected.'); return; }
+      compressBtn.disabled = true;
+      compressBtn.textContent = 'Compressing...';
+      // animate progress realistically
+      await animateProgress();
+
+      // show result
+      resultBox.style.display = 'block';
+      document.getElementById('resultText').textContent = `${Math.round((1 - (simulatedCompressedSizeKB / (currentFile.size/1024))) * 100)}% smaller`;
+      // prepare download (simulated): we will offer the original file but renamed as compressed_*
+      const blobUrl = URL.createObjectURL(currentFile);
+      downloadBtn.onclick = () => {
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = `compressed_${currentFile.name}`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        // revoke after a while
+        setTimeout(()=>URL.revokeObjectURL(blobUrl), 60000);
+      };
+
+      // show quick feedback popup (small)
+      showFeedbackPrompt();
+      compressBtn.disabled = false;
+      compressBtn.textContent = 'Compress Now';
+    });
+
+    // progress animation: incremental steps with small delays
+    function animateProgress(){
+      return new Promise((resolve) => {
+        const fill = progressFill;
+        let percent = 0;
+        const fileMB = currentFile.size / (1024*1024);
+        // base speed changes with file size for realism
+        let speed = fileMB < 1 ? 12 : (fileMB < 5 ? 8 : 5);
+        const interval = setInterval(()=>{
+          percent += Math.random() * speed;
+          if (percent >= 100) percent = 100;
+          fill.style.width = percent + '%';
+          fill.parentElement.setAttribute('aria-valuenow', Math.round(percent));
+          if (percent >= 100){
+            clearInterval(interval);
+            // small pause to feel "finalizing"
+            setTimeout(()=>resolve(), 600);
+          }
+        }, 180);
+      });
+    }
+
+    // small feedback prompt modal (confirm style)
+    function showFeedbackPrompt(){
+      setTimeout(()=>{
+        try{
+          if (confirm('Was the compression helpful? Press OK to send feedback or Cancel to continue.')) {
+            window.open('mailto:feedback@mychoose.online?subject=PDF%20Compressor%20Feedback', '_blank');
+          }
+        }catch(e){}
+      }, 900);
+    }
+
+    // dark toggle behavior (knob animated via class)
+    const darkToggleBtn = document.getElementById('darkToggle');
+    darkToggleBtn.addEventListener('click', toggleDark);
+    darkToggleBtn.addEventListener('keydown', (e)=>{ if (e.key === 'Enter' || e.key===' ') toggleDark(); });
+
+    function toggleDark(){
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      knob.textContent = isDark ? '🌙' : '🌞';
+      darkToggleBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    }
+
+    // share buttons
+    document.getElementById('wa').addEventListener('click', ()=> {
+      const u = encodeURIComponent(location.href);
+      const t = encodeURIComponent('Try this fast PDF Compressor: ');
+      window.open(`https://wa.me/?text=${t}%20${u}`);
+    });
+    document.getElementById('fb').addEventListener('click', ()=> {
+      const u = encodeURIComponent(location.href);
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`);
+    });
+    document.getElementById('tw').addEventListener('click', ()=> {
+      const u = encodeURIComponent(location.href);
+      const t = encodeURIComponent('Fast PDF Compressor — no signup, no watermark');
+      window.open(`https://twitter.com/intent/tweet?text=${t}&url=${u}`);
+    });
+
+    // keyboard accessibility: allow Enter to open file selector
+    uploadBox.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+
+    // Clean-up on unload: revoke created URLs (if any)
+    window.addEventListener('beforeunload', ()=>{ /* nothing persistent */ });
+
+  </script>
+</body>
+</html>
