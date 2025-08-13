@@ -1,133 +1,327 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Convert JPG or PNG images to PDF instantly with MYCHOOSE. Fast, secure, and easy to use.">
-<title>MYCHOOSE - Image to PDF Converter</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MYCHOOSE — Image to PDF (Fast & Private)</title>
+<meta name="description" content="Convert JPG/PNG/WebP images to PDF instantly in your browser. Fast, private and easy — no upload." />
+<meta name="theme-color" content="#0A66FF" />
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: #f8f9fa;
-        color: #333;
-        transition: background 0.3s, color 0.3s;
-    }
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-    }
-    header img {
-        height: 40px;
-    }
-    .dark-mode {
-        background-color: #121212;
-        color: #f1f1f1;
-    }
-    .container {
-        max-width: 600px;
-        margin: auto;
-        padding: 40px 20px;
-        text-align: center;
-    }
-    .upload-box {
-        border: 2px dashed #007bff;
-        padding: 40px;
-        border-radius: 10px;
-        background-color: white;
-        cursor: pointer;
-        margin-bottom: 20px;
-    }
-    .dark-mode .upload-box {
-        background-color: #1e1e1e;
-        border-color: #3399ff;
-    }
-    button {
-        background-color: #007bff;
-        color: white;
-        padding: 12px 25px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-    #darkToggle {
-        background: none;
-        border: 1px solid white;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+  :root{
+    --bg:#ffffff; --text:#0b1220; --muted:#64718a;
+    --panel:#f6f8ff; --stroke:#dbe9ff;
+    --brand:#0A66FF; --brand-600:#085bd6;
+    --bg-d:#07111a; --text-d:#e8f2ff; --panel-d:#0b2033; --stroke-d:#163049;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+  body.dark{background:var(--bg-d);color:var(--text-d)}
+  header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:linear-gradient(90deg,var(--brand),#19b2ff);color:#fff}
+  .logo-wrap{display:flex;align-items:center;gap:10px}
+  .logo-img{height:40px;width:auto;display:block}
+  .brand-name{font-weight:800;font-size:18px}
+  .spacer{flex:1}
+  .mode-btn{background:transparent;border:2px solid rgba(255,255,255,0.18);color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+  main{max-width:980px;margin:24px auto;padding:0 18px}
+  .card{background:var(--panel);border:1px solid var(--stroke);border-radius:16px;padding:28px;text-align:center}
+  body.dark .card{background:var(--panel-d);border-color:var(--stroke-d)}
+  h1{margin:0 0 6px;font-size:clamp(20px,4vw,30px)}
+  p.lead{margin:0;color:var(--muted)}
+  body.dark p.lead{color:#a3bedf}
+  /* Drop area */
+  .drop{margin-top:20px;border:2.5px dashed var(--brand);padding:34px;border-radius:12px;cursor:pointer;background:transparent}
+  .drop.drag{background:rgba(10,102,255,0.06)}
+  .drop strong{display:block;font-size:18px}
+  .drop small{display:block;margin-top:8px;color:var(--muted)}
+  /* controls */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+  .btn{background:var(--brand);color:#fff;border:0;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer;box-shadow:0 12px 28px rgba(10,102,255,0.12)}
+  .btn:disabled{background:#9fbfff;cursor:not-allowed;box-shadow:none}
+  .btn.out{background:transparent;border:2px solid var(--brand);color:var(--brand);font-weight:800}
+  .filename{padding:10px 12px;border-radius:10px;border:1px solid var(--stroke);min-width:220px}
+  body.dark .filename{border-color:var(--stroke-d);background:transparent;color:var(--text-d)}
+  /* preview */
+  #preview{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px}
+  .thumb{width:150px;border-radius:10px;border:1px solid var(--stroke);background:var(--panel);padding:8px;position:relative}
+  body.dark .thumb{background:transparent;border-color:var(--stroke-d)}
+  .thumb img{width:100%;height:110px;object-fit:cover;border-radius:8px;display:block}
+  .thumb .name{font-size:13px;margin-top:8px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+  .thumb .remove{position:absolute;top:8px;right:8px;border:0;background:#fff;border-radius:8px;padding:4px;cursor:pointer}
+  body.dark .thumb .remove{background:#0f1832;color:var(--text-d)}
+  progress{width:100%;height:14px;border-radius:999px;display:none;margin-top:18px}
+  progress::-webkit-progress-value{background:linear-gradient(90deg,var(--brand),#19b2ff)}
+  footer{text-align:center;color:var(--muted);margin:28px 0}
+  @media(max-width:520px){
+    .thumb{width:46%}
+    .filename{min-width:140px}
+  }
 </style>
 </head>
 <body>
 <header>
-    <img src="data:image/png;base64,PUT-YOUR-BASE64-LOGO-HERE" alt="MYCHOOSE Logo">
-    <button id="darkToggle">Dark Mode</button>
+  <div class="logo-wrap" aria-hidden="false">
+    <!-- Image: If you want to embed base64, replace logoBase64 variable below. Fallback SVG shown if none. -->
+    <img id="logoImg" class="logo-img" alt="MYCHOOSE Logo" />
+    <div class="brand-name">MYCHOOSE</div>
+  </div>
+  <div class="spacer"></div>
+  <button id="modeBtn" class="mode-btn" aria-pressed="false">Dark</button>
 </header>
 
-<div class="container">
-    <h1>Image to PDF Converter</h1>
-    <div class="upload-box" id="uploadBox">
-        Click or Drag & Drop Images Here
-        <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
+<main>
+  <section class="card" aria-label="Image to PDF converter">
+    <h1>Image to PDF</h1>
+    <p class="lead">Fast • Private • No upload — everything runs inside your browser.</p>
+
+    <div id="drop" class="drop" tabindex="0" role="button" aria-label="Drop or click to select images">
+      <strong>Drop images here or click to browse</strong>
+      <small>Supports JPG, PNG, WebP — single or multiple</small>
+      <input id="fileInput" type="file" accept="image/*" multiple style="display:none" />
     </div>
-    <button id="convertBtn">Convert to PDF</button>
-</div>
 
+    <div class="controls" aria-hidden="false">
+      <input id="filename" class="filename" type="text" placeholder="Output filename (default: converted.pdf)" aria-label="Output filename">
+      <button id="convertBtn" class="btn" disabled>Convert to PDF</button>
+      <button id="clearBtn" class="btn out" disabled>Clear</button>
+    </div>
+
+    <div id="preview" aria-live="polite" aria-label="Selected images preview"></div>
+    <progress id="progress" max="100" value="0"></progress>
+  </section>
+</main>
+
+<footer>© <span id="year"></span> MYCHOOSE</footer>
+
+<!-- jsPDF CDN (single-file friendly) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
-    const { jsPDF } = window.jspdf;
-    const uploadBox = document.getElementById('uploadBox');
-    const fileInput = document.getElementById('fileInput');
-    const convertBtn = document.getElementById('convertBtn');
-    let images = [];
+/* ================= CONFIG =================
+   If you want your logo embedded directly as Base64, paste only the BASE64 string in logoBase64.
+   Example: const logoBase64 = "iVBORw0KGgoAAAANSUhE..."; (no data:image/... prefix)
+*/
+const logoBase64 = ""; // <-- paste base64 string here if you want (optional)
+/* ========================================== */
 
-    uploadBox.addEventListener('click', () => fileInput.click());
-    uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.style.borderColor = '#0056b3'; });
-    uploadBox.addEventListener('dragleave', () => uploadBox.style.borderColor = '#007bff');
-    uploadBox.addEventListener('drop', e => {
-        e.preventDefault();
-        images = [...e.dataTransfer.files];
-    });
-    fileInput.addEventListener('change', e => {
-        images = [...e.target.files];
-    });
+document.getElementById('year').textContent = new Date().getFullYear();
 
-    convertBtn.addEventListener('click', () => {
-        if (images.length === 0) {
-            alert("Please upload at least one image.");
-            return;
-        }
-        const pdf = new jsPDF();
-        images.forEach((imgFile, i) => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = function() {
-                    const width = pdf.internal.pageSize.getWidth();
-                    const height = (img.height * width) / img.width;
-                    if (i > 0) pdf.addPage();
-                    pdf.addImage(img, 'JPEG', 0, 0, width, height);
-                    if (i === images.length - 1) pdf.save('converted.pdf');
-                }
-            }
-            reader.readAsDataURL(imgFile);
-        });
-    });
+const logoImg = document.getElementById('logoImg');
+function setLogoFromBase64OrFallback() {
+  if (logoBase64 && logoBase64.trim().length > 50) {
+    // try detect image type (png/jpg/webp) by looking at beginning of base64 (optional)
+    // assume PNG by default
+    logoImg.src = 'data:image/png;base64,' + logoBase64.trim();
+    logoImg.alt = 'MYCHOOSE Logo';
+  } else {
+    // Fallback: inline SVG (sharp, scalable) so logo always visible
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="140" height="40" viewBox="0 0 140 40" role="img" aria-label="MYCHOOSE logo">
+        <rect rx="8" width="40" height="40" fill="#0A66FF"/>
+        <text x="54" y="26" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="18" fill="#0A66FF">MYCHOOSE</text>
+        <path d="M10 10 L17 20 L28 6" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>`;
+    const svg64 = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    logoImg.src = svg64;
+    logoImg.alt = 'MYCHOOSE';
+  }
+}
+setLogoFromBase64OrFallback();
 
-    document.getElementById('darkToggle').addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+/* ============== UI & State ============== */
+const drop = document.getElementById('drop');
+const fileInput = document.getElementById('fileInput');
+const preview = document.getElementById('preview');
+const convertBtn = document.getElementById('convertBtn');
+const clearBtn = document.getElementById('clearBtn');
+const filenameInput = document.getElementById('filename');
+const progress = document.getElementById('progress');
+const modeBtn = document.getElementById('modeBtn');
+
+let items = []; // { file, url } appended
+
+/* Dark mode memory */
+function applyMode(isDark) {
+  document.body.classList.toggle('dark', isDark);
+  modeBtn.textContent = isDark ? 'Light' : 'Dark';
+  modeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+  try { localStorage.setItem('mc_dark', isDark ? '1' : '0'); } catch(e){}
+}
+applyMode(localStorage.getItem('mc_dark') === '1');
+modeBtn.addEventListener('click', ()=> applyMode(!document.body.classList.contains('dark')));
+
+/* ============== Helpers ============== */
+function updateButtons(){
+  const has = items.length > 0;
+  convertBtn.disabled = !has;
+  clearBtn.disabled = !has;
+}
+
+function createThumb(item){
+  const box = document.createElement('div');
+  box.className = 'thumb';
+  const img = document.createElement('img');
+  img.src = item.url;
+  img.alt = item.file.name;
+  const name = document.createElement('div');
+  name.className = 'name';
+  name.textContent = item.file.name;
+  const rem = document.createElement('button');
+  rem.className = 'remove';
+  rem.title = 'Remove';
+  rem.textContent = '✕';
+  rem.addEventListener('click', ()=>{
+    // revoke URL and remove from items
+    try { URL.revokeObjectURL(item.url); } catch(e){}
+    items = items.filter(x=>x!==item);
+    box.remove();
+    updateButtons();
+  });
+  box.appendChild(rem);
+  box.appendChild(img);
+  box.appendChild(name);
+  preview.appendChild(box);
+}
+
+/* Add files (append) */
+function addFiles(fileList){
+  let added = false;
+  for(const f of fileList){
+    if(!f.type || !f.type.startsWith('image/')) continue;
+    const obj = { file: f, url: URL.createObjectURL(f) };
+    items.push(obj);
+    createThumb(obj);
+    added = true;
+  }
+  if(added) updateButtons();
+}
+
+/* Clear all */
+clearBtn.addEventListener('click', ()=>{
+  items.forEach(i=>{ try{ URL.revokeObjectURL(i.url); }catch(e){} });
+  items = [];
+  preview.innerHTML = '';
+  filenameInput.value = '';
+  progress.style.display = 'none';
+  updateButtons();
+});
+
+/* File input + drop handlers */
+drop.addEventListener('click', ()=> fileInput.click());
+fileInput.addEventListener('change', (e)=> {
+  addFiles(e.target.files);
+  fileInput.value = '';
+});
+drop.addEventListener('dragover', (e)=> { e.preventDefault(); drop.classList.add('drag'); });
+drop.addEventListener('dragleave', ()=> drop.classList.remove('drag'));
+drop.addEventListener('drop', (e)=> {
+  e.preventDefault();
+  drop.classList.remove('drag');
+  if(e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+});
+
+/* Accessibility keyboard */
+drop.addEventListener('keypress', (e)=>{ if(e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+
+/* ============== Conversion ============== */
+/* page sizes in points (pt) */
+function pageSize(name='A4'){
+  if(name === 'Letter') return [612, 792];
+  return [595.28, 841.89];
+}
+
+/* convert File -> JPEG dataURL using createImageBitmap (fast) with quality */
+async function fileToJPEGDataURL(file, quality=0.92){
+  try{
+    if(window.createImageBitmap){
+      const bitmap = await createImageBitmap(file);
+      const canvas = document.createElement('canvas');
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(bitmap, 0, 0);
+      // free bitmap (some browsers): bitmap.close && bitmap.close();
+      return canvas.toDataURL('image/jpeg', quality);
+    } else {
+      // fallback
+      return await new Promise((resolve, reject)=>{
+        const fr = new FileReader();
+        fr.onload = ()=> {
+          const img = new Image();
+          img.onload = ()=>{
+            const c = document.createElement('canvas'), ctx = c.getContext('2d');
+            c.width = img.width; c.height = img.height; ctx.drawImage(img,0,0);
+            resolve(c.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = ()=> resolve(fr.result); // fallback to original
+          img.src = fr.result;
+        };
+        fr.onerror = ()=> reject();
+        fr.readAsDataURL(file);
+      });
+    }
+  } catch(e){
+    // fallback to FileReader raw
+    return await new Promise((res)=>{
+      const r = new FileReader();
+      r.onload = ()=> res(r.result);
+      r.readAsDataURL(file);
     });
+  }
+}
+
+/* main generate function */
+convertBtn.addEventListener('click', async function(){
+  if(items.length === 0) { alert('Please add at least one image.'); return; }
+  // create jsPDF
+  const jsPDFLib = window.jspdf && window.jspdf.jsPDF;
+  if(!jsPDFLib){ alert('PDF engine not loaded. Reload the page.'); return; }
+
+  convertBtn.disabled = true;
+  clearBtn.disabled = true;
+  progress.style.display = 'block';
+  progress.value = 0;
+
+  const [pw, ph] = pageSize('A4'); // For simplicity A4 fixed — can be made selectable later
+  const pdf = new jsPDFLib({ unit: 'pt', format: [pw, ph], compress: true });
+
+  for(let i=0;i<items.length;i++){
+    const item = items[i];
+    try{
+      // convert to JPEG dataURL (fast)
+      const dataURL = await fileToJPEGDataURL(item.file, 0.9);
+      // create Image for sizing
+      await new Promise((resolve)=>{
+        const img = new Image();
+        img.onload = ()=>{
+          let iw = img.width, ih = img.height;
+          const ratio = iw / ih;
+          let dw = pw * 0.95;
+          let dh = dw / ratio;
+          if(dh > ph * 0.95){ dh = ph * 0.95; dw = dh * ratio; }
+          if(i > 0) pdf.addPage([pw, ph]);
+          pdf.addImage(img, 'JPEG', (pw - dw)/2, (ph - dh)/2, dw, dh, undefined, 'FAST');
+          progress.value = ((i+1)/items.length)*100;
+          resolve();
+        };
+        img.onerror = ()=> resolve();
+        img.src = dataURL;
+      });
+    } catch(err){
+      console.error('Error processing image', err);
+    }
+  }
+
+  const safeName = (filenameInput.value.trim() || 'converted').replace(/[^\w\-]+/g,'_') + '.pdf';
+  try{ pdf.save(safeName); } catch(e){ console.error(e); alert('Download failed.'); }
+  progress.style.display = 'none';
+  convertBtn.disabled = false;
+  clearBtn.disabled = false;
+});
+
+/* cleanup on unload */
+window.addEventListener('unload', ()=> {
+  items.forEach(i=>{ try{ URL.revokeObjectURL(i.url); }catch(e){} });
+});
 </script>
 </body>
 </html>
