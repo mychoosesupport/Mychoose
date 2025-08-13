@@ -1,626 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- =============== BASIC =============== -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Free Image to PDF Converter Online (JPG/PNG to PDF) | MyChoose</title>
-  <meta name="description" content="Convert JPG, PNG, and other images to PDF instantly with MyChoose's free Image to PDF Converter. 100% browser-based, secure, fast, and no signup required." />
-  <meta name="keywords" content="Image to PDF, JPG to PDF, PNG to PDF, photo to pdf, convert image to pdf online, free pdf tool, MyChoose" />
-  <link rel="canonical" href="https://mychoose.online/image-to-pdf" />
-  <meta name="robots" content="index, follow" />
-
-  <!-- =============== THEME COLOR (Mobile) =============== -->
-  <meta name="theme-color" content="#0a67ff" />
-
-  <!-- =============== OG / TWITTER =============== -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Free Image to PDF Converter - MyChoose" />
-  <meta property="og:description" content="Convert JPG/PNG to PDF in seconds. 100% secure, no upload — works in your browser." />
-  <meta property="og:url" content="https://mychoose.online/image-to-pdf" />
-  <meta property="og:image" content="https://mychoose.online/assets/og-image-to-pdf.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Free Image to PDF Converter - MyChoose" />
-  <meta name="twitter:description" content="Fast, free & private: convert images to PDF instantly." />
-  <meta name="twitter:image" content="https://mychoose.online/assets/og-image-to-pdf.jpg" />
-
-  <!-- =============== FAVICON (update paths if needed) =============== -->
-  <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" />
-  <link rel="icon" href="/assets/favicon-192.png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="/assets/apple-touch.png" />
-
-  <!-- =============== FONTS + ICONS (lightweight) =============== -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
-
-  <!-- =============== STYLES =============== -->
-  <style>
-    :root{
-      /* Light */
-      --bg: #ffffff;
-      --text: #0b1220;
-      --muted: #5b6a86;
-      --card: #f6f8ff;
-      --border: #e6ecff;
-      --primary: #0a67ff;
-      --primary-600:#0757da;
-      --primary-700:#064bc0;
-      --accent:#12b3ff;
-
-      /* Dark */
-      --bg-dark:#0c1222;
-      --text-dark:#eaf0ff;
-      --muted-dark:#a7b4d4;
-      --card-dark:#121a32;
-      --border-dark:#223157;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Convert JPG or PNG images to PDF instantly with MYCHOOSE. Fast, secure, and easy to use.">
+<title>MYCHOOSE - Image to PDF Converter</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        transition: background 0.3s, color 0.3s;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.55;
-      -webkit-font-smoothing:antialiased;
-      transition:background .3s,color .3s;
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
     }
-    body.dark{
-      background:var(--bg-dark);
-      color:var(--text-dark);
+    header img {
+        height: 40px;
     }
-
-    /* Header / topbar */
-    .topbar{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter:saturate(180%) blur(10px);
-      background: linear-gradient(90deg, rgba(10,103,255,.95), rgba(18,179,255,.95));
-      color:#fff;
-      border-bottom:1px solid rgba(255,255,255,.15);
+    .dark-mode {
+        background-color: #121212;
+        color: #f1f1f1;
     }
-    .wrap{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;gap:14px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
-    .logo{
-      width:36px;height:36px;border-radius:12px;
-      background:#fff; display:grid; place-items:center;
-      box-shadow:0 6px 20px rgba(0,0,0,.25);
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 40px 20px;
+        text-align: center;
     }
-    .logo svg{width:22px;height:22px}
-    .brand-title{font-weight:800;letter-spacing:.2px}
-    .spacer{flex:1}
-    .nav a{
-      color:#fff;text-decoration:none;font-weight:600;margin-left:16px;opacity:.95
+    .upload-box {
+        border: 2px dashed #007bff;
+        padding: 40px;
+        border-radius: 10px;
+        background-color: white;
+        cursor: pointer;
+        margin-bottom: 20px;
     }
-    .nav a:hover{opacity:1;text-decoration:underline}
-
-    /* Dark mode toggle */
-    .mode-btn{
-      border:0;background:rgba(255,255,255,.15);color:#fff;
-      padding:10px 12px;border-radius:14px;cursor:pointer;
-      display:flex;align-items:center;gap:8px;font-weight:600
+    .dark-mode .upload-box {
+        background-color: #1e1e1e;
+        border-color: #3399ff;
     }
-    .mode-btn svg{width:18px;height:18px}
-
-    /* Main container */
-    .container{max-width:1000px;margin:24px auto;padding:0 18px}
-    .hero{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:24px;padding:26px 20px 18px 20px;
-      box-shadow:0 8px 30px rgba(10,103,255,.08);
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
     }
-    body.dark .hero{
-      background:var(--card-dark);
-      border-color:var(--border-dark);
-      box-shadow:0 8px 30px rgba(0,0,0,.35);
+    button:hover {
+        background-color: #0056b3;
     }
-    h1{
-      margin:0 0 6px;font-size:clamp(22px, 4vw, 34px);line-height:1.2
+    #darkToggle {
+        background: none;
+        border: 1px solid white;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 5px;
+        cursor: pointer;
     }
-    .sub{
-      margin:0 0 18px;color:var(--muted);
-    }
-    body.dark .sub{color:var(--muted-dark)}
-    .trust{
-      display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 6px
-    }
-    .badge{
-      display:flex;align-items:center;gap:8px;
-      background:#fff;border:1px solid var(--border);color:#0b1220;
-      padding:8px 12px;border-radius:999px;font-size:14px;font-weight:600
-    }
-    .badge svg{width:16px;height:16px}
-    body.dark .badge{
-      background:#0e162c;border-color:#1b2b4f;color:#eaf0ff
-    }
-
-    /* Drop zone & thumbnails */
-    #drop-zone{
-      margin-top:16px;border:2.5px dashed var(--primary);
-      border-radius:18px;padding:34px; text-align:center; cursor:pointer;
-      background:#fff;
-      transition:background .25s, border-color .25s, color .25s;
-    }
-    body.dark #drop-zone{background:#0f1832}
-    #drop-zone.dragover{background:rgba(10,103,255,.08)}
-    #drop-zone p{margin:8px 0 0}
-    #fileInput{display:none}
-
-    #filenameInput{
-      width:100%;max-width:460px;margin:16px auto 10px;display:block;
-      border:1.5px solid var(--border);border-radius:12px;padding:11px 12px;font-size:15px;
-      background:#fff;color:inherit;outline-color:var(--primary);
-    }
-    body.dark #filenameInput{background:#0e162c;border-color:#1b2b4f}
-
-    #preview{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
-    .thumbnail{
-      width:130px;background:#fff;border:1px solid var(--border);border-radius:14px;
-      box-shadow:0 6px 16px rgba(0,0,0,.06);padding:10px;position:relative
-    }
-    body.dark .thumbnail{background:#101a34;border-color:#223157}
-    .thumbnail img{
-      width:100%;height:104px;object-fit:cover;border-radius:10px;display:block;
-      transition:transform .25s; background:#eef3ff
-    }
-    .thumb-filename{font-size:12.5px;margin-top:8px;word-break:break-word}
-    .ellipsis-menu{
-      position:absolute;top:8px;right:8px;cursor:pointer;user-select:none
-    }
-    .ellipsis-menu .dot{width:4px;height:4px;background:var(--primary);border-radius:999px;display:block;margin:3px}
-    .menu-dropdown{
-      position:absolute;right:8px;top:28px;display:none;z-index:20;width:160px;
-      background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.12)
-    }
-    body.dark .menu-dropdown{background:#0f1832;border-color:#223157}
-    .menu-dropdown button{
-      width:100%;text-align:left;padding:10px 12px;border:0;background:transparent;cursor:pointer;font-size:14px
-    }
-    .menu-dropdown button:hover{background:rgba(10,103,255,.08)}
-
-    /* Buttons group */
-    .btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:18px 0 6px}
-    .btn{
-      border:0;background:var(--primary);color:#fff;font-weight:700;
-      padding:12px 18px;border-radius:14px;cursor:pointer;font-size:15px;
-      box-shadow:0 10px 24px rgba(10,103,255,.25);transition:transform .05s ease, background .2s
-    }
-    .btn:hover{background:var(--primary-600)}
-    .btn:active{transform:translateY(1px)}
-    .btn:disabled{background:#9cb9ff;box-shadow:none;cursor:not-allowed}
-    .btn.outline{
-      background:transparent;color:var(--primary);border:2px solid var(--primary)
-    }
-    body.dark .btn.outline{color:#9fc1ff;border-color:#406bff}
-
-    /* Progress */
-    progress{
-      width:100%;height:16px;border-radius:999px;overflow:hidden;appearance:none;display:none;margin-top:12px
-    }
-    progress::-webkit-progress-bar{background:#e8eeff}
-    progress::-webkit-progress-value{background:linear-gradient(90deg,#0a67ff,#12b3ff)}
-    body.dark progress::-webkit-progress-bar{background:#17254a}
-
-    /* Secondary content */
-    .grid{
-      display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      margin:24px 0 6px
-    }
-    .card{
-      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px
-    }
-    body.dark .card{background:var(--card-dark);border-color:var(--border-dark)}
-    .card h3{margin:6px 0 6px;font-size:18px}
-    .card p{margin:0;color:var(--muted)}
-    body.dark .card p{color:var(--muted-dark)}
-
-    /* FAQ */
-    details{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px}
-    details+details{margin-top:10px}
-    body.dark details{background:var(--card-dark);border-color:var(--border-dark)}
-    summary{cursor:pointer;font-weight:700}
-
-    /* Footer */
-    footer{
-      margin:24px 0 40px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;justify-content:center
-    }
-    footer a{color:inherit}
-    /* Focus ring */
-    :focus-visible{outline:3px solid #8ec5ff;outline-offset:2px;border-radius:10px}
-  </style>
-
-  <!-- =============== STRUCTURED DATA (WebApplication + FAQ) =============== -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebApplication",
-    "name":"MyChoose - Image to PDF Converter",
-    "url":"https://mychoose.online/image-to-pdf",
-    "applicationCategory":"UtilityApplication",
-    "operatingSystem":"Any",
-    "description":"Convert JPG, PNG, and images to PDF instantly in your browser. Free, secure, and no signup.",
-    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
-    "publisher":{"@type":"Organization","name":"MyChoose"}
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
-      {"@type":"Question","name":"Kya images server par upload hoti hain?","acceptedAnswer":{"@type":"Answer","text":"Nahi. Ye tool 100% browser-based hai — images aapke device par hi process hoti hain."}},
-      {"@type":"Question","name":"Kya tool free hai?","acceptedAnswer":{"@type":"Answer","text":"Haan, Image to PDF converter completely free hai, bina signup."}},
-      {"@type":"Question","name":"Kya quality loss hota hai?","acceptedAnswer":{"@type":"Answer","text":"Aap compress on/off kar sakte ho. Default me high-quality PDF generate hota hai."}}
-    ]
-  }
-  </script>
+</style>
 </head>
 <body>
-  <!-- =============== HEADER =============== -->
-  <header class="topbar" role="banner">
-    <div class="wrap">
-      <a href="/" class="brand" aria-label="MyChoose Home">
-        <span class="logo" aria-hidden="true">
-          <!-- simple checkmark logo -->
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="2" y="2" width="20" height="20" rx="6" fill="#0a67ff"></rect>
-            <path d="M7 12.5l3 3 7-8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="brand-title">MyChoose Tools</span>
-      </a>
-      <nav class="spacer nav" aria-label="Primary">
-        <a href="/#image-tools">Image Tools</a>
-        <a href="/#pdf-tools">PDF Tools</a>
-        <a href="/privacy">Privacy</a>
-      </nav>
-      <button id="darkModeToggle" class="mode-btn" aria-pressed="false" aria-label="Toggle dark mode">
-        <svg id="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 4V2M12 22v-2M4 12H2m20 0h-2M5 5l-1.5-1.5M20.5 20.5L19 19M5 19l-1.5 1.5M20.5 3.5L19 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
-        </svg>
-        <svg id="icon-moon" viewBox="0 0 24 24" fill="none" style="display:none" aria-hidden="true">
-          <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-        </svg>
-        <span id="modeText">Dark</span>
-      </button>
+<header>
+    <img src="data:image/png;base64,PUT-YOUR-BASE64-LOGO-HERE" alt="MYCHOOSE Logo">
+    <button id="darkToggle">Dark Mode</button>
+</header>
+
+<div class="container">
+    <h1>Image to PDF Converter</h1>
+    <div class="upload-box" id="uploadBox">
+        Click or Drag & Drop Images Here
+        <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
     </div>
-  </header>
+    <button id="convertBtn">Convert to PDF</button>
+</div>
 
-  <!-- =============== MAIN TOOL =============== -->
-  <main class="container" role="main">
-    <section class="hero" aria-label="Image to PDF converter">
-      <h1>🖼️ Free Image to PDF Converter (JPG/PNG ➜ PDF)</h1>
-      <p class="sub">Fast, secure & privacy-friendly. <strong>No upload</strong> — everything runs in your browser.</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    const { jsPDF } = window.jspdf;
+    const uploadBox = document.getElementById('uploadBox');
+    const fileInput = document.getElementById('fileInput');
+    const convertBtn = document.getElementById('convertBtn');
+    let images = [];
 
-      <div class="trust" aria-label="Trust badges">
-        <div class="badge" title="Secure HTTPS">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M6 10V7a6 6 0 1 1 12 0v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/></svg>
-          SSL Secure
-        </div>
-        <div class="badge" title="Privacy first">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.6 9.2-8 10-4.4-.8-8-5-8-10V7l8-4z" stroke="currentColor" stroke-width="1.8"/></svg>
-          Privacy-Friendly
-        </div>
-        <div class="badge" title="Browser based">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M3 5h18v14H3z" stroke="currentColor" stroke-width="1.8"/><path d="M3 8h18" stroke="currentColor" stroke-width="1.8"/></svg>
-          No Upload Needed
-        </div>
-        <div class="badge" title="Free forever">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M4 12a8 8 0 1 0 16 0A8 8 0 0 0 4 12z" stroke="currentColor" stroke-width="1.8"/></svg>
-          Free & Fast
-        </div>
-      </div>
-
-      <!-- Drop Zone -->
-      <div id="drop-zone" tabindex="0" aria-label="Drag and drop images here or click to select files">
-        <strong>📂 Drag & drop</strong> images here, or <u>click to upload</u>
-        <p>Supported: JPG, JPEG, PNG, WEBP</p>
-        <input type="file" id="fileInput" multiple accept="image/*" aria-hidden="true" />
-      </div>
-
-      <!-- Filename -->
-      <input type="text" id="filenameInput" placeholder="Output filename (default: converted.pdf)" aria-label="Output PDF filename" />
-
-      <!-- Preview -->
-      <div id="preview" aria-live="polite" aria-label="Selected image preview area"></div>
-
-      <!-- Progress -->
-      <progress id="progressBar" max="100" value="0" aria-label="Progress indicator"></progress>
-
-      <!-- Actions -->
-      <div class="btns">
-        <button class="btn outline" id="compressBtn" disabled>📉 Compress All</button>
-        <button class="btn" id="generateBtn" disabled>📄 Generate PDF</button>
-        <button class="btn outline" id="resetBtn" disabled>🔄 Reset</button>
-      </div>
-    </section>
-
-    <!-- Helpful info cards -->
-    <section class="grid" aria-label="Helpful information">
-      <div class="card">
-        <h3>Why MyChoose Image ➜ PDF?</h3>
-        <p>Simple UI, premium experience, and super-fast PDF generation. No watermarks, no limits.</p>
-      </div>
-      <div class="card">
-        <h3>Tips for Better PDFs</h3>
-        <p>Use high-resolution images for crisp PDFs. Optional compression reduces size without visible loss.</p>
-      </div>
-      <div class="card">
-        <h3>Other Popular Tools</h3>
-        <p><a href="/png-to-jpg">PNG to JPG</a> · <a href="/merge-pdf">Merge PDF</a> · <a href="/pdf-compressor">PDF Compressor</a></p>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section aria-label="FAQ">
-      <details>
-        <summary>⚙️ Kya images server par upload hoti hain?</summary>
-        <div>Bilkul nahi — sab kuch aapke browser me local hota hai.</div>
-      </details>
-      <details>
-        <summary>🆓 Kya yeh tool free hai?</summary>
-        <div>Haan, yeh 100% free hai. Koi signup ki zaroorat nahi.</div>
-      </details>
-      <details>
-        <summary>🛡️ Kya mera data safe hai?</summary>
-        <div>Haan. HTTPS + browser-only processing = privacy safe.</div>
-      </details>
-    </section>
-  </main>
-
-  <footer>
-    © <span id="year"></span> MyChoose • <a href="/privacy">Privacy</a> • <a href="/terms">Terms</a> • <a href="/sitemap.xml">Sitemap</a>
-  </footer>
-
-  <!-- =============== SCRIPTS =============== -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-  <script>
-    // Wait for jsPDF
-    document.addEventListener('DOMContentLoaded', () => {
-      const { jsPDF } = window.jspdf || {};
-
-      // Elements
-      const fileInput = document.getElementById('fileInput');
-      const dropZone = document.getElementById('drop-zone');
-      const preview = document.getElementById('preview');
-      const compressBtn = document.getElementById('compressBtn');
-      const generateBtn = document.getElementById('generateBtn');
-      const resetBtn = document.getElementById('resetBtn');
-      const progressBar = document.getElementById('progressBar');
-      const filenameInput = document.getElementById('filenameInput');
-
-      const darkModeToggle = document.getElementById('darkModeToggle');
-      const iconSun = document.getElementById('icon-sun');
-      const iconMoon = document.getElementById('icon-moon');
-      const modeText = document.getElementById('modeText');
-
-      let images = []; // { file, dataURL, imgElem, rotation, compressedDataURL }
-
-      // ===== Dark mode =====
-      function applyMode(isDark){
-        document.body.classList.toggle('dark', isDark);
-        darkModeToggle.setAttribute('aria-pressed', String(isDark));
-        if(isDark){
-          iconSun.style.display='none'; iconMoon.style.display='block'; modeText.textContent='Light';
-          localStorage.setItem('image2pdf_dark_mode','true');
-        }else{
-          iconSun.style.display='block'; iconMoon.style.display='none'; modeText.textContent='Dark';
-          localStorage.setItem('image2pdf_dark_mode','false');
-        }
-      }
-      const saved = localStorage.getItem('image2pdf_dark_mode') === 'true';
-      applyMode(saved);
-      darkModeToggle.addEventListener('click',()=>applyMode(!document.body.classList.contains('dark')));
-
-      // Footer year
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      // ===== File handling =====
-      fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-      dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-      dropZone.addEventListener('drop', e => {
-        e.preventDefault(); dropZone.classList.remove('dragover');
-        if(e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
-      });
-      dropZone.addEventListener('click', () => fileInput.click());
-      dropZone.addEventListener('keypress', e => {
-        if(e.key === 'Enter' || e.key === ' ') fileInput.click();
-      });
-
-      function handleFiles(fileList){
-        let added = false;
-        for(const file of fileList){
-          if(!file.type.startsWith('image/')) continue;
-          const reader = new FileReader();
-          reader.onload = e => addImage(file, e.target.result);
-          reader.readAsDataURL(file);
-          added = true;
-        }
-        if(added) updateUI();
-      }
-
-      function addImage(file, dataURL){
-        const wrap = document.createElement('div');
-        wrap.className = 'thumbnail'; wrap.tabIndex = 0;
-
-        const imgElem = document.createElement('img');
-        imgElem.src = dataURL;
-        imgElem.alt = `Selected image: ${file.name}`;
-        imgElem.loading = 'lazy';
-        imgElem.decoding = 'async';
-
-        let rotation = 0;
-        let compressedDataURL = null;
-
-        const dots = document.createElement('div');
-        dots.className='ellipsis-menu';
-        dots.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
-        dots.tabIndex = 0;
-
-        const menu = document.createElement('div');
-        menu.className='menu-dropdown';
-
-        function closeAllMenus(){
-          document.querySelectorAll('.menu-dropdown').forEach(m => m.style.display='none');
-        }
-        function createBtn(label, fn){
-          const b = document.createElement('button'); b.type='button'; b.textContent=label;
-          b.onclick = e => { e.stopPropagation(); fn(); menu.style.display='none'; };
-          return b;
-        }
-        function renameImage(){
-          const newName = prompt('Rename image:', file.name);
-          if(newName && newName.trim()){
-            displayName.textContent = newName.trim();
-            file.name = newName.trim();
-          }
-        }
-        function rotateLeft(){ rotation = (rotation - 90) % 360; imgElem.style.transform = `rotate(${rotation}deg)`; }
-        function rotateRight(){ rotation = (rotation + 90) % 360; imgElem.style.transform = `rotate(${rotation}deg)`; }
-
-        async function compressOne(){
-          toggleWorking(true);
-          compressedDataURL = await compressImage(imgElem, rotation);
-          imgElem.src = compressedDataURL;
-          toggleWorking(false);
-        }
-        function downloadImage(){
-          const a = document.createElement('a');
-          a.href = compressedDataURL || dataURL;
-          a.download = file.name;
-          document.body.appendChild(a); a.click(); a.remove();
-        }
-        function removeImage(){
-          images = images.filter(i => i.imgElem !== imgElem);
-          wrap.remove(); updateUI();
-        }
-
-        menu.appendChild(createBtn('Rename', renameImage));
-        menu.appendChild(createBtn('Rotate Left', rotateLeft));
-        menu.appendChild(createBtn('Rotate Right', rotateRight));
-        menu.appendChild(createBtn('Compress', compressOne));
-        menu.appendChild(createBtn('Download', downloadImage));
-        menu.appendChild(createBtn('Remove', removeImage));
-
-        dots.onclick = e => { e.stopPropagation(); closeAllMenus(); menu.style.display='block'; };
-        dots.onkeydown = e => { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); dots.click(); } };
-        document.addEventListener('click', closeAllMenus);
-
-        const displayName = document.createElement('div');
-        displayName.className='thumb-filename';
-        displayName.textContent = file.name;
-
-        wrap.appendChild(imgElem);
-        wrap.appendChild(dots);
-        wrap.appendChild(menu);
-        wrap.appendChild(displayName);
-        preview.appendChild(wrap);
-
-        images.push({ file, dataURL, imgElem, rotation, compressedDataURL });
-      }
-
-      function updateUI(){
-        const has = images.length>0;
-        compressBtn.disabled = !has;
-        generateBtn.disabled = !has;
-        resetBtn.disabled = !has;
-      }
-
-      function toggleWorking(on){
-        compressBtn.disabled = on;
-        generateBtn.disabled = on;
-        progressBar.style.display = on ? 'block' : 'none';
-      }
-
-      // ===== Compression (70% JPEG with rotation support) =====
-      function compressImage(img, rotation){
-        return new Promise(resolve=>{
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          const w = img.naturalWidth || img.width;
-          const h = img.naturalHeight || img.height;
-          if(Math.abs(rotation)%180===90){ canvas.width = h; canvas.height = w; }
-          else { canvas.width = w; canvas.height = h; }
-          ctx.save();
-          switch(rotation){
-            case 90: ctx.translate(canvas.width, 0); ctx.rotate(Math.PI/2); break;
-            case 180:
-            case -180: ctx.translate(canvas.width, canvas.height); ctx.rotate(Math.PI); break;
-            case -90: ctx.translate(0, canvas.height); ctx.rotate(-Math.PI/2); break;
-          }
-          ctx.drawImage(img, 0, 0, w, h);
-          ctx.restore();
-          const out = canvas.toDataURL('image/jpeg', 0.7);
-          resolve(out);
-        });
-      }
-
-      async function compressAllImages(){
-        toggleWorking(true);
-        progressBar.value = 0;
-        for(let i=0;i<images.length;i++){
-          const o = images[i];
-          o.compressedDataURL = await compressImage(o.imgElem, o.rotation);
-          o.imgElem.src = o.compressedDataURL;
-          progressBar.value = ((i+1)/images.length)*100;
-          await new Promise(r=>setTimeout(r,50));
-        }
-        toggleWorking(false);
-        alert('All images compressed.');
-      }
-
-      async function generatePDF(){
-        if(!jsPDF){ alert('PDF engine not loaded. Please retry.'); return; }
-        if(images.length===0){ alert('Add some images first!'); return; }
-
-        toggleWorking(true);
-        generateBtn.disabled = true; resetBtn.disabled = true; compressBtn.disabled = true;
-
-        const pdf = new jsPDF(); // A4 portrait default
-        for(let i=0;i<images.length;i++){
-          const o = images[i];
-          const src = o.compressedDataURL || o.dataURL;
-          const img = new Image();
-          img.src = src;
-          await new Promise(res=>{
-            img.onload = () => {
-              const pw = pdf.internal.pageSize.getWidth();
-              const ph = pdf.internal.pageSize.getHeight();
-              let iw = img.width, ih = img.height;
-              const ratio = iw/ih;
-              let dw = pw*0.95, dh = dw/ratio;
-              if(dh>ph*0.95){ dh = ph*0.95; dw = dh*ratio; }
-              if(i>0) pdf.addPage();
-              pdf.addImage(img, 'JPEG', (pw-dw)/2, (ph-dh)/2, dw, dh, undefined, 'FAST');
-              progressBar.value = ((i+1)/images.length)*100;
-              res();
-            };
-            img.onerror = () => res();
-          });
-        }
-        const filename = (filenameInput.value.trim() || 'converted').replace(/[^\w\-]+/g,'_') + '.pdf';
-        pdf.save(filename);
-
-        progressBar.style.display='none';
-        generateBtn.disabled = false; resetBtn.disabled = false; compressBtn.disabled = false;
-        toggleWorking(false);
-      }
-
-      function resetAll(){
-        images = [];
-        preview.innerHTML='';
-        progressBar.style.display='none';
-        filenameInput.value='';
-        updateUI();
-      }
-
-      // Bind actions
-      compressBtn.addEventListener('click', compressAllImages);
-      generateBtn.addEventListener('click', generatePDF);
-      resetBtn.addEventListener('click', resetAll);
+    uploadBox.addEventListener('click', () => fileInput.click());
+    uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.style.borderColor = '#0056b3'; });
+    uploadBox.addEventListener('dragleave', () => uploadBox.style.borderColor = '#007bff');
+    uploadBox.addEventListener('drop', e => {
+        e.preventDefault();
+        images = [...e.dataTransfer.files];
     });
-  </script>
+    fileInput.addEventListener('change', e => {
+        images = [...e.target.files];
+    });
+
+    convertBtn.addEventListener('click', () => {
+        if (images.length === 0) {
+            alert("Please upload at least one image.");
+            return;
+        }
+        const pdf = new jsPDF();
+        images.forEach((imgFile, i) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const width = pdf.internal.pageSize.getWidth();
+                    const height = (img.height * width) / img.width;
+                    if (i > 0) pdf.addPage();
+                    pdf.addImage(img, 'JPEG', 0, 0, width, height);
+                    if (i === images.length - 1) pdf.save('converted.pdf');
+                }
+            }
+            reader.readAsDataURL(imgFile);
+        });
+    });
+
+    document.getElementById('darkToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
 </body>
-                                                 </html>
+</html>
