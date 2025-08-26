@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free QR Code Generator Online - MyChoose Tools</title>
+<meta name="description" content="Generate free QR codes instantly from any URL or text. Customize size, colors, and download in PNG or SVG format. Fast, private, SEO-friendly QR Code Generator.">
+<meta name="keywords" content="QR code generator, free qr code, create qr code, download qr code, qr code online, qr code png, qr code svg">
+<meta name="author" content="MyChoose Tools">
+
+<!-- OpenGraph SEO -->
+<meta property="og:title" content="Free QR Code Generator Online - MyChoose Tools">
+<meta property="og:description" content="Generate free QR codes instantly from any URL or text. Customize size, colors, and download in PNG or SVG format.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mychoose.online/qr-code-generator">
+<meta property="og:image" content="https://mychoose.online/assets/qr-preview.png">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "QR Code Generator",
+  "url": "https://mychoose.online/qr-code-generator",
+  "description": "Free online QR code generator to create custom QR codes with size, color and download options.",
+  "applicationCategory": "Utility",
+  "operatingSystem": "All"
+}
+</script>
+
+<style>
+:root {
+  --primary: #1e90ff;
+  --secondary: #0f78d1;
+  --bg-light: #f4f7fa;
+  --bg-dark: #121212;
+  --card-light: #fff;
+  --card-dark: #1e1e1e;
+  --text-light: #111;
+  --text-dark: #fff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: var(--bg-light);
+  color: var(--text-light);
+  transition: 0.3s;
+}
+body.dark { background: var(--bg-dark); color: var(--text-dark); }
+
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 30px;
+  background: var(--card-light);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: 0.3s;
+}
+body.dark .container { background: var(--card-dark); }
+
+h1 { color: var(--primary); margin-bottom: 20px; font-size: 28px; }
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.color-picker {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+.color-picker div { flex: 1; text-align: center; }
+
+button {
+  padding: 12px 20px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 8px;
+  transition: 0.3s;
+}
+button:hover { background: var(--secondary); }
+
+#qrcode { margin: 20px auto; }
+
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<button class="dark-mode-toggle">Dark Mode</button>
+
+<div class="container">
+  <h1>QR Code Generator</h1>
+  <input type="text" id="text" placeholder="Enter text or URL...">
+  
+  <select id="size">
+    <option value="200">Small (200x200)</option>
+    <option value="300" selected>Medium (300x300)</option>
+    <option value="400">Large (400x400)</option>
+  </select>
+
+  <div class="color-picker">
+    <div>
+      <label>Foreground</label><br>
+      <input type="color" id="fgColor" value="#000000">
+    </div>
+    <div>
+      <label>Background</label><br>
+      <input type="color" id="bgColor" value="#ffffff">
+    </div>
+  </div>
+
+  <button id="generate">Generate QR Code</button>
+  <button id="downloadPng">Download PNG</button>
+  <button id="downloadSvg">Download SVG</button>
+
+  <div id="qrcode"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+const toggle = document.querySelector(".dark-mode-toggle");
+toggle.addEventListener("click", ()=>{
+  document.body.classList.toggle("dark");
+  toggle.textContent = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+});
+
+let qrCanvas;
+
+document.getElementById("generate").addEventListener("click", ()=>{
+  const text = document.getElementById("text").value.trim();
+  const size = parseInt(document.getElementById("size").value);
+  const fg = document.getElementById("fgColor").value;
+  const bg = document.getElementById("bgColor").value;
+  
+  if(!text) return alert("Please enter text or URL!");
+
+  const qrContainer = document.getElementById("qrcode");
+  qrContainer.innerHTML = "";
+
+  qrCanvas = document.createElement("canvas");
+  QRCode.toCanvas(qrCanvas, text, { width: size, color: { dark: fg, light: bg } }, function (error) {
+    if (error) console.error(error);
+    qrContainer.appendChild(qrCanvas);
+  });
+});
+
+// Download PNG
+document.getElementById("downloadPng").addEventListener("click", ()=>{
+  if(!qrCanvas) return alert("Generate QR code first!");
+  const link = document.createElement("a");
+  link.href = qrCanvas.toDataURL("image/png");
+  link.download = "QRCode.png";
+  link.click();
+});
+
+// Download SVG
+document.getElementById("downloadSvg").addEventListener("click", ()=>{
+  const text = document.getElementById("text").value.trim();
+  const size = parseInt(document.getElementById("size").value);
+  const fg = document.getElementById("fgColor").value;
+  const bg = document.getElementById("bgColor").value;
+  if(!text) return alert("Generate QR code first!");
+
+  QRCode.toString(text, { type: "svg", width: size, color: { dark: fg, light: bg } }, function (err, svg) {
+    if(err) throw err;
+    const blob = new Blob([svg], {type: "image/svg+xml"});
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "QRCode.svg";
+    link.click();
+  });
+});
+</script>
+</body>
+</html>
